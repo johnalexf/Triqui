@@ -1,0 +1,55 @@
+.poppins-regular {
+    font-family: "Poppins", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+*{
+    font-family: "Poppins", serif;
+    font-style: normal;
+    text-align: center;
+}
+
+h1{ 
+    font-weight: 900;
+}
+
+p, label, button{
+    font-size: 24px;
+    font-weight: 400;
+}
+
+input{
+    width: 24px;
+    height: 18px;
+}
+
+.eleccion, button{
+    margin: 20px;
+}
+
+
+.contenedor{
+    border: 2px black solid;
+    padding: 2px;
+}
+
+.principal{
+    margin: 0 auto;
+    max-width: 450px;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+}
+
+.secundario{
+    width: auto;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenedor p{
+    font-size: 80px;
+    color: red;
+}

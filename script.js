@@ -40,6 +40,17 @@ let arregloPrimeraJugada = [0,2,6,8];
 
 let casillasOcupadas = [];
 
+let combinacionesGanadoras=[
+    [0,1,2],
+    [3,4,5],
+    [6,7,8],
+    [0,3,6],
+    [1,4,7],
+    [2,5,8],
+    [0,4,8],
+    [6,4,2]
+];
+
 //Eventos de escucha para que al seleccionar un checkbox el otro se deseleccione
 // y asignación de la elección en la variable letraSeleccion
 eleccionO.addEventListener('change',()=>{
@@ -69,6 +80,11 @@ document.addEventListener('click',function(event){
         contenedorSeleccionado = parseInt(event.target.id);
         pintarYGuardarJugada(contenedorSeleccionado,letraUsuario);
         
+        //Fue necesario usar setTimeout en 0, para indicarle a javascript que hay una tarea en proceso
+        //la cual es la actualización del DOM, en donde se pinta la opción seleccionada.
+        setTimeout(verificarGanador,0);
+
+
         switch(jugada){
             case 1:
                 if(contenedorSeleccionado == 4){
@@ -91,6 +107,7 @@ document.addEventListener('click',function(event){
                 break;
 
         }
+        setTimeout(verificarGanador,0);
         
         
     }
@@ -98,14 +115,46 @@ document.addEventListener('click',function(event){
 
 });
 
-function pintarYGuardarJugada(posicion, letra){
-    contenedoresSecundarios[posicion].innerHTML = `<p> ${letra} </p>`;
+function pintarYGuardarJugada(id, letra){
+    contenedoresSecundarios[id].innerHTML = `<p> ${letra} </p>`;
 
-    columna = Math.floor(posicion / 3);
-    fila = posicion % 3;
+    convertirIdAUbicacionMatriz(id);
     matrizJuego[columna][fila] = letra;
-    casillasOcupadas.push(posicion);
+    casillasOcupadas.push(id);
     jugada++;
     console.log(`La jugada es la # ${jugada}`);
     console.log(matrizJuego);
+}
+
+function convertirIdAUbicacionMatriz(posicion){
+    columna = Math.floor(posicion / 3);
+    fila = posicion % 3;
+}
+
+function verificarGanador(){
+
+    for(let prueba = 0 ; prueba <= 7 ; prueba++){
+
+        let arregloAVerificar = ["0","0","0"];
+        for(let i=0 ; i < 3 ; i++){
+            convertirIdAUbicacionMatriz(combinacionesGanadoras[prueba][i]);
+            arregloAVerificar[i] = matrizJuego[columna][fila]; 
+        }
+        console.log(arregloAVerificar);
+        if(arregloAVerificar[0] == arregloAVerificar[1] && arregloAVerificar[1] == arregloAVerificar[2]){
+           if(arregloAVerificar[0] == letraUsuario){
+                letraUsuario = "Ninguna";
+                alert("Felicidades has ganado");
+                break;
+           }
+           if(arregloAVerificar[0] == letraPc){
+                letraUsuario = "Ninguna";
+                alert("Lo siento te han ganado");
+                break;
+           }
+        }
+
+    }
+
+
 }

@@ -1,5 +1,3 @@
-
-
 // checkboxs de la elección del usuario para jugar
 const eleccionO = document.getElementById('eleccionO');
 const eleccionX = document.getElementById('eleccionX');
@@ -78,43 +76,41 @@ document.addEventListener('click', async function(event){
         }
         
         contenedorSeleccionado = parseInt(event.target.id);
-        await pintarYGuardarJugada(contenedorSeleccionado,letraUsuario);
+
+        if(casillasOcupadas.indexOf(contenedorSeleccionado)==-1){
+            //fue necesario convertir la función a await para que espere una promesa la cual indica que paso el tiempo
+            //necesario para la actualización del DOM
+            await pintarYGuardarJugada(contenedorSeleccionado,letraUsuario);
+            
+            verificarGanador();
+
+            switch(jugada){
+                case 1:
+                    if(contenedorSeleccionado == 4){
+                        contenedorSeleccionado = arregloPrimeraJugada[Math.round(Math.random() * 3)];
+                    }else{
+                        contenedorSeleccionado = 4;
+                    }
+                    pintarYGuardarJugada(contenedorSeleccionado,letraPc);
+                    break;
+                case 9:
+                    jugando == false;
+                    console.log("juego terminado")
+                    break;
+                default:
+                    do{
+                        contenedorSeleccionado = Math.round(Math.random() * 8);
+                    }while(casillasOcupadas.indexOf(contenedorSeleccionado)!=-1);
+                    await pintarYGuardarJugada(contenedorSeleccionado,letraPc);
+                    verificarGanador();
+                    break;
+
+            }
         
-        //Fue necesario usar setTimeout en 0, para indicarle a javascript que hay una tarea en proceso
-        //la cual es la actualización del DOM, en donde se pinta la opción seleccionada.
-        verificarGanador();
-        
-
-        console.log("la jugada es la ");
-        console.log(jugada);
-
-        switch(jugada){
-            case 1:
-                if(contenedorSeleccionado == 4){
-                    contenedorSeleccionado = arregloPrimeraJugada[Math.round(Math.random() * 3)];
-                }else{
-                    contenedorSeleccionado = 4;
-                }
-                pintarYGuardarJugada(contenedorSeleccionado,letraPc);
-                break;
-            case 9:
-                jugando == false;
-                console.log("juego terminado")
-                break;
-            default:
-                do{
-                    contenedorSeleccionado = Math.round(Math.random() * 8);
-                }while(casillasOcupadas.indexOf(contenedorSeleccionado)!=-1);
-                await pintarYGuardarJugada(contenedorSeleccionado,letraPc);
-                verificarGanador();
-                break;
-
+            
+            
         }
-       
-        
-        
     }
-    
 
 });
 
@@ -154,12 +150,8 @@ function verificarGanador(){
         if(arregloAVerificar[0] == arregloAVerificar[1] && arregloAVerificar[1] == arregloAVerificar[2]){
            if(arregloAVerificar[0] == letraUsuario){
                 jugada = 9;
-                console.log(jugada)
                 letraUsuario = "Ninguna";
-                    alert("Felicidades has ganado");
-                
-                console.log(jugada);
-                console.log("has ganado")
+                alert("Felicidades has ganado");
                 break;
            }
            if(arregloAVerificar[0] == letraPc){

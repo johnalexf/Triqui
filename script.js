@@ -135,24 +135,6 @@ function pintarYGuardarJugada(id, letra){
     });
 }
 
-// function pintarYGuardarJugada(id, letra) {
-//     return new Promise((resolve) => {
-//         contenedoresSecundarios[id].innerHTML = `<p> ${letra} </p>`;
-
-//         convertirIdAUbicacionMatriz(id);
-//         matrizJuego[columna][fila] = letra;
-//         casillasOcupadas.push(id);
-//         jugada++;
-//         console.log(`La jugada es la # ${jugada}`);
-//         console.log(matrizJuego);
-
-//         // Simulamos una tarea asíncrona (opcional)
-//         setTimeout(() => {
-//             resolve(); // Resolvemos la promesa cuando la tarea termina
-//         }, 1000); // Esperamos 1 segundo
-//     });
-// }
-
 
 function convertirIdAUbicacionMatriz(posicion){
     columna = Math.floor(posicion / 3);

@@ -68,7 +68,7 @@ eleccionX.addEventListener('change',()=>{
 
 //evento de escucha en toda la pagina con el fin de:
 // poder dibujar la selección del usuario según el contenedor secundario donde se haga click.
-document.addEventListener('click',function(event){
+document.addEventListener('click', async function(event){
 
     if(event.target.classList[1] == 'secundario' && letraUsuario != 'Ninguna'){
         if(jugando == false){
@@ -78,12 +78,15 @@ document.addEventListener('click',function(event){
         }
         
         contenedorSeleccionado = parseInt(event.target.id);
-        pintarYGuardarJugada(contenedorSeleccionado,letraUsuario);
+        await pintarYGuardarJugada(contenedorSeleccionado,letraUsuario);
         
         //Fue necesario usar setTimeout en 0, para indicarle a javascript que hay una tarea en proceso
         //la cual es la actualización del DOM, en donde se pinta la opción seleccionada.
-        setTimeout(verificarGanador,0);
+        verificarGanador();
+        
 
+        console.log("la jugada es la ");
+        console.log(jugada);
 
         switch(jugada){
             case 1:
@@ -101,13 +104,13 @@ document.addEventListener('click',function(event){
             default:
                 do{
                     contenedorSeleccionado = Math.round(Math.random() * 8);
-                    console.log(casillasOcupadas.indexOf(contenedorSeleccionado));
                 }while(casillasOcupadas.indexOf(contenedorSeleccionado)!=-1);
-                pintarYGuardarJugada(contenedorSeleccionado,letraPc);
+                await pintarYGuardarJugada(contenedorSeleccionado,letraPc);
+                verificarGanador();
                 break;
 
         }
-        setTimeout(verificarGanador,0);
+       
         
         
     }
@@ -116,15 +119,40 @@ document.addEventListener('click',function(event){
 });
 
 function pintarYGuardarJugada(id, letra){
-    contenedoresSecundarios[id].innerHTML = `<p> ${letra} </p>`;
+    return new Promise( (resolve)=>{
+        contenedoresSecundarios[id].innerHTML = `<p> ${letra} </p>`;
 
-    convertirIdAUbicacionMatriz(id);
-    matrizJuego[columna][fila] = letra;
-    casillasOcupadas.push(id);
-    jugada++;
-    console.log(`La jugada es la # ${jugada}`);
-    console.log(matrizJuego);
+        convertirIdAUbicacionMatriz(id);
+        matrizJuego[columna][fila] = letra;
+        casillasOcupadas.push(id);
+        jugada++;
+        console.log(`La jugada es la # ${jugada}`);
+        console.log(matrizJuego);
+        //Simulamos una tarea asíncrona (opcional)
+        setTimeout(() => {
+            resolve(); // Resolvemos la promesa cuando la tarea termina
+      }, 100); // Esperamos 1 segundo
+    });
 }
+
+// function pintarYGuardarJugada(id, letra) {
+//     return new Promise((resolve) => {
+//         contenedoresSecundarios[id].innerHTML = `<p> ${letra} </p>`;
+
+//         convertirIdAUbicacionMatriz(id);
+//         matrizJuego[columna][fila] = letra;
+//         casillasOcupadas.push(id);
+//         jugada++;
+//         console.log(`La jugada es la # ${jugada}`);
+//         console.log(matrizJuego);
+
+//         // Simulamos una tarea asíncrona (opcional)
+//         setTimeout(() => {
+//             resolve(); // Resolvemos la promesa cuando la tarea termina
+//         }, 1000); // Esperamos 1 segundo
+//     });
+// }
+
 
 function convertirIdAUbicacionMatriz(posicion){
     columna = Math.floor(posicion / 3);
@@ -143,11 +171,17 @@ function verificarGanador(){
         console.log(arregloAVerificar);
         if(arregloAVerificar[0] == arregloAVerificar[1] && arregloAVerificar[1] == arregloAVerificar[2]){
            if(arregloAVerificar[0] == letraUsuario){
+                jugada = 9;
+                console.log(jugada)
                 letraUsuario = "Ninguna";
-                alert("Felicidades has ganado");
+                    alert("Felicidades has ganado");
+                
+                console.log(jugada);
+                console.log("has ganado")
                 break;
            }
            if(arregloAVerificar[0] == letraPc){
+                jugada = 9;
                 letraUsuario = "Ninguna";
                 alert("Lo siento te han ganado");
                 break;

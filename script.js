@@ -8,6 +8,27 @@ const eleccionX = document.getElementById('eleccionX');
 const contenedoresSecundarios = document.getElementsByClassName('secundario');
 
 
+//variable de inicio del juego
+let jugando = false;
+
+//variable de selección del usuario
+let letraSeleccionada = "Ninguna";
+
+
+eleccionO.addEventListener('change',()=>{
+    eleccionX.checked = false;
+    letraSeleccionada = "O";
+});
+
+
+eleccionX.addEventListener('change',()=>{
+    eleccionO.checked = false;
+    letraSeleccionada = "X";
+});
+
+
+
+
 //evento de escucha en toda la pagina con el fin de:
 // poder dibujar la selección del usuario segun el contenedor secundario
 document.addEventListener('click',function(event){
@@ -17,16 +38,13 @@ document.addEventListener('click',function(event){
     console.log(eleccionO.checked)
     console.log(eleccionX.checked)
 
-    if(event.target.id == 'eleccionX'){
-        eleccionO.checked = false;
-    }else if(event.target.id == 'eleccionO'){
-        eleccionX.checked = false;
-
-    }
-
-
-    if(event.target.classList[1] == 'secundario'){
-        contenedoresSecundarios[event.target.id - 1].innerHTML = '<p> X </p>';
+    if(event.target.classList[1] == 'secundario' && letraSeleccionada != 'Ninguna'){
+        if(jugando == false){
+            jugando == true;
+            eleccionO.disabled = true;
+            eleccionX.disabled = true;
+        }
+        contenedoresSecundarios[event.target.id - 1].innerHTML = `<p> ${letraSeleccionada} </p>`;
     }
     
 

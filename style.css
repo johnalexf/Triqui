@@ -1,9 +1,3 @@
-.poppins-regular {
-    font-family: "Poppins", serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
 *{
     font-family: "Poppins", serif;
     font-style: normal;
@@ -18,28 +12,28 @@ h2{
     font-size: 22px;
 }
 
-h3{
+h3,p, button, input, select, label{
     font-size: 20px;
-}
-
-p, button{
-    font-size: 20px;
-    font-weight: 400;
 }
 
 p{
     margin: 10px;
 }
 
+h3{
+    margin: 0px 10px
+}
+
 input, label{
-    font-size: 24px;
-    width: 24px;
     height: 18px;
 }
 
+input{
+    width: 15px;
+}
+
 select{
-    font-size: 20px;
-    height: 24px;
+    height: 22px;
 }
 
 .eleccion, button{
@@ -54,9 +48,17 @@ select{
     grid-template-columns: 1fr 1fr;
 }
 
-/* .nivel, .opcion{
-    border: 3px solid black;
-} */
+.nivel, .opcion{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Estilos para que el label de la opción X o O queden alineados con el input */
+.opcion label{
+    padding-bottom: 2px;
+}
 
 .contenedor{
     border: 2px black solid;
@@ -65,8 +67,8 @@ select{
 
 .juego{
     margin: auto;
-    padding: 1%;
-    max-width: 600px;
+    padding: 5px;
+    max-width: 610px;
     display: grid;
     grid-template-columns: 3fr 1fr;
 }
@@ -94,6 +96,16 @@ select{
 .puntaje{
     display: grid;
     grid-template-rows: repeat(5,1fr);
+    padding-right: 5px;
+}
+
+
+.puntajesEspecifico{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
 }
 
 .puntaje input{
@@ -116,7 +128,7 @@ button{
     padding: 3px 15px;
     box-shadow: 2px 3px rgba(0, 0, 0, 0.226); 
     /* Sombra base */
-     transition: all 0.4s ease-in-out; /* Transición suave */
+    transition: all 0.4s ease-in-out; /* Transición suave */
     cursor: pointer;
 }
 
@@ -136,9 +148,10 @@ button:active{
 
 @media (width < 650px){
 
-    /* label{
-        font-size: 20px;
-    } */
+
+    h3,p, button, input, select, label{
+        font-size: 18px;
+    }
 
     .eleccion{
         width: auto;
@@ -161,7 +174,7 @@ button:active{
 
     .puntaje{
         grid-template-columns: repeat(3,1fr); 
-        grid-template-rows: 20px 100px 50px;
+        grid-template-rows: 35px 60px 50px;
     }
 
     .puntaje h2, .puntaje button{
@@ -173,7 +186,7 @@ button:active{
     }
 
     .puntaje h2{
-        padding-top: 5px;
+        padding: 5px;
     }
 
     h3{
@@ -182,7 +195,7 @@ button:active{
 
 }
 
-@media  (width < 300px) {
+@media  (width < 320px) {
     .opcion{
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -192,5 +205,19 @@ button:active{
         display: grid;
         grid-template-columns: 1fr;
         text-align: center;
+    }
+
+
+    .puntaje{
+        grid-template-columns: repeat(2,1fr); 
+        grid-template-rows: 35px 60px 60px 50px;
+    }
+
+    .puntaje div:nth-last-of-type(1){
+        grid-column:  1/3;
+    }
+
+    .puntaje h2, .puntaje button{
+        grid-column:  1/3;
     }
 }

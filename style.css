@@ -153,6 +153,10 @@ button:active{
         font-size: 18px;
     }
 
+    h3{
+        margin: auto auto;
+    }
+
     .eleccion{
         width: auto;
         display: flex;

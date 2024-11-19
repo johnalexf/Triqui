@@ -92,7 +92,19 @@
 
     </main>
 
-    
+    <p id="pantallaSize">El tamaño de tu pantalla será mostrado aquí.</p>
+
+    <script>
+        // Obtener el elemento del párrafo
+        const pantallaSizeElement = document.getElementById('pantallaSize');
+
+        // Obtener el ancho y alto de la ventana
+        const ancho = window.innerWidth;
+        const alto = window.innerHeight;
+
+        // Actualizar el contenido del párrafo
+        pantallaSizeElement.textContent = `El ancho de tu pantalla es: ${ancho}px y el alto es: ${alto}px`;
+    </script>
     <script src="script.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>

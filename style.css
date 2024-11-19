@@ -27,16 +27,36 @@ p, button{
     font-weight: 400;
 }
 
+p{
+    margin: 10px;
+}
+
 input, label{
     font-size: 24px;
     width: 24px;
     height: 18px;
 }
 
+select{
+    font-size: 20px;
+    height: 24px;
+}
+
 .eleccion, button{
     margin: 20px;
 }
 
+.eleccion{
+    margin: auto;
+    padding-bottom: 10px;
+    width: 600px ;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+/* .nivel, .opcion{
+    border: 3px solid black;
+} */
 
 .contenedor{
     border: 2px black solid;
@@ -83,8 +103,12 @@ input, label{
     background-color: white;
 }
 
-.puntaje h2, .puntaje button{
+.puntaje h2{
     margin: auto;
+}
+
+.puntaje button{
+    margin: auto 20px;
 }
 
 button{
@@ -112,6 +136,16 @@ button:active{
 
 @media (width < 650px){
 
+    /* label{
+        font-size: 20px;
+    } */
+
+    .eleccion{
+        width: auto;
+        display: flex;
+        justify-content: space-around;
+    }
+
     .juego{
         max-width: 300px;
         grid-template-columns: 1fr;
@@ -134,11 +168,29 @@ button:active{
         grid-column:  1/4;
     }
 
+    .puntaje button{
+        margin: auto;
+    }
+
     .puntaje h2{
         padding-top: 5px;
     }
 
-    
+    h3{
+        font-size: 18px;
+    }
 
+}
 
+@media  (width < 300px) {
+    .opcion{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .nivel{
+        display: grid;
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
 }

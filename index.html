@@ -18,14 +18,32 @@
     <main>
         <h1>Triqui</h1>
 
-        <p>Bienvenido al juego de triqui, elije la opcion con la cual deseas jugar</p>
+        <p>Bienvenido <SPAN>John</SPAN> al juego de triqui</p> 
+        <p>Elije el nivel y la opción con la cual deseas jugar</p>
 
         <div class="eleccion">
-            <input type="checkbox" name="eleccionO" id="eleccionO" >
-            <label for="eleccionO">O</label>
 
-            <input type="checkbox" name="eleccionX" id="eleccionX" >
-            <label for="eleccionX">X</label>
+            <div class="nivel">
+                <label for="modoJuego"> Nivel </label>
+                <select name="modoJuego" id="modoJuego">
+                    <option value="0">Fácil</option>
+                    <option value="0">Medio</option>
+                    <option value="0">Difícil</option>
+                    <option value="0">Imposible</option>
+                </select>
+            </div>
+            
+            <div class="opcion">
+
+                <input type="checkbox" name="eleccionO" id="eleccionO" >
+                <label for="eleccionO">O</label>
+
+                <input type="checkbox" name="eleccionX" id="eleccionX" >
+                <label for="eleccionX">X</label>
+
+            </div>
+
+            
         </div>
         
         <div class="contenedor juego">
@@ -65,7 +83,7 @@
                     <input type="text" disabled>
                 </div>
 
-                <button id="reiniciar"> Reiniciar </button>
+                <button id="reiniciar"> Reiniciar Puntaje</button>
 
             </div>
         </div>

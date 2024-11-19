@@ -30,7 +30,7 @@
         
         <div class="contenedor juego">
 
-            <div  class="contenedor principal"  >
+            <div  class="principal"  >
 
                 <div class="contenedor secundario" id="0"></div>
                 <div class="contenedor secundario" id="1"></div>
@@ -46,9 +46,31 @@
 
             </div>
 
+            <div class="contenedor puntaje">
+
+                <h2> Puntaje </h2>
+
+                <div>
+                    <h3> Ganados </h3>
+                    <input type="text" disabled>
+                </div>
+                
+                <div>
+                    <h3> Empatados </h3>
+                    <input type="text" disabled>
+                </div>
+                
+                <div>
+                    <h3> Perdidos </h3>
+                    <input type="text" disabled>
+                </div>
+
+                <button id="reiniciar"> Reiniciar </button>
+
+            </div>
         </div>
 
-        <button id="reiniciar" onclick="location.reload()"> Reiniciar </button>
+        <button id="nuevoJuego" onclick="location.reload()"> Nuevo Juego </button>
 
     </main>
 

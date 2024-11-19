@@ -195,7 +195,7 @@ button:active{
 
 }
 
-@media  (width < 320px) {
+@media  (width < 330px) {
     .opcion{
         display: grid;
         grid-template-columns: 1fr 1fr;

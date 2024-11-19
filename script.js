@@ -33,8 +33,11 @@ let fila = 0;
 //variable para el contenedor que selecciona el usuario o el pc para pintar jugada
 let contenedorSeleccionado
 
-//arreglo para la primera jugada si es usuario elije la posición 4 que es la central
-let arregloPrimeraJugada = [0,2,6,8];
+//arreglo para la segunda jugada si el usuario elije la posición 4 que es la central
+// y también para la cuarta jugada y hacer imposible que el usuario gane
+let arregloParaNoDejarGanar = [0,2,6,8];
+
+let usuarioCentro = false;
 
 let casillasOcupadas = [];
 
@@ -48,6 +51,9 @@ let combinacionesGanadoras=[
     [0,4,8],
     [6,4,2]
 ];
+
+//arreglo que se va armando según cada una de las combinacionesGanadoras
+let arregloAVerificar = ["0","0","0"];
 
 //Eventos de escucha para que al seleccionar un checkbox el otro se deseleccione
 // y asignación de la elección en la variable letraSeleccion
@@ -87,7 +93,8 @@ document.addEventListener('click', async function(event){
             switch(jugada){
                 case 1:
                     if(contenedorSeleccionado == 4){
-                        contenedorSeleccionado = arregloPrimeraJugada[Math.round(Math.random() * 3)];
+                        usuarioCentro = true;
+                        contenedorSeleccionado = arregloParaNoDejarGanar[Math.round(Math.random() * 3)];
                     }else{
                         contenedorSeleccionado = 4;
                     }
@@ -98,7 +105,7 @@ document.addEventListener('click', async function(event){
                     console.log("juego terminado")
                     break;
                 default:
-                    opcionParaGanar();
+                    opcionParaBloquear();
                     await pintarYGuardarJugada(contenedorSeleccionado,letraPc);
                     verificarGanador();
                     break;
@@ -139,7 +146,7 @@ function verificarGanador(){
 
     for(let prueba = 0 ; prueba <= 7 ; prueba++){
 
-        let arregloAVerificar = ["0","0","0"];
+        arregloAVerificar = ["0","0","0"];
         for(let i=0 ; i < 3 ; i++){
             convertirIdAUbicacionMatriz(combinacionesGanadoras[prueba][i]);
             arregloAVerificar[i] = matrizJuego[columna][fila]; 
@@ -164,31 +171,60 @@ function verificarGanador(){
 
 }
 
-function opcionParaGanar(){
+function opcionParaBloquear(){
+
+    
+        
+    if(opcionParaGanar(letraPc)){
+        console.log("opcion para ganar el pc");
+        return;
+    }
+
+    if(opcionParaGanar(letraUsuario)){
+        console.log("opcion para bloquiar al usuario");
+        return;
+    }
+    if(jugada == 3){
+        if(usuarioCentro){
+            do{
+                contenedorSeleccionado = Math.round(Math.random() * 8);
+            }while(casillasOcupadas.indexOf(contenedorSeleccionado) != (-1) || arregloParaNoDejarGanar.indexOf(contenedorSeleccionado) == (-1));
+        }else{
+            do{
+                contenedorSeleccionado = Math.round(Math.random() * 8);
+            }while(casillasOcupadas.indexOf(contenedorSeleccionado) != (-1) || arregloParaNoDejarGanar.indexOf(contenedorSeleccionado) != (-1));
+        }
+        return;
+    }
+    do{
+        contenedorSeleccionado = Math.round(Math.random() * 8);
+    }while(casillasOcupadas.indexOf(contenedorSeleccionado)!=-1);
+}
+
+function opcionParaGanar(letraAVerificar){
+
 
     for(let prueba = 0 ; prueba <= 7 ; prueba++){
 
-        let arregloAVerificar = ["0","0","0"];
+        arregloAVerificar = ["0","0","0"];
         for(let i=0 ; i < 3 ; i++){
             convertirIdAUbicacionMatriz(combinacionesGanadoras[prueba][i]);
             arregloAVerificar[i] = matrizJuego[columna][fila]; 
         }
         console.log(arregloAVerificar);
-        if(arregloAVerificar[0] != "0" && arregloAVerificar[0] == arregloAVerificar[1] && arregloAVerificar[2] == '0'){
-           contenedorSeleccionado = combinacionesGanadoras[prueba][2];
-           return;
+        if(arregloAVerificar[0] == letraAVerificar && arregloAVerificar[0] == arregloAVerificar[1] && 
+            arregloAVerificar[2] == '0' ){
+            contenedorSeleccionado = combinacionesGanadoras[prueba][2];
+            return true;
         }
-        if(arregloAVerificar[1] != "0" && arregloAVerificar[1] == arregloAVerificar[2] && arregloAVerificar[0] == '0'){
+        if(arregloAVerificar[1] == letraAVerificar && arregloAVerificar[1] == arregloAVerificar[2] && arregloAVerificar[0] == '0'){
             contenedorSeleccionado = combinacionesGanadoras[prueba][0];
-            return;
+            return true;
         }
-        if(arregloAVerificar[2] != "0" && arregloAVerificar[0] == arregloAVerificar[2] && arregloAVerificar[1] == '0'){
+        if(arregloAVerificar[2] == letraAVerificar && arregloAVerificar[0] == arregloAVerificar[2] && arregloAVerificar[1] == '0'){
             contenedorSeleccionado = combinacionesGanadoras[prueba][1];
-            return;
+            return true;
         }
-    
     }
-    do{
-        contenedorSeleccionado = Math.round(Math.random() * 8);
-    }while(casillasOcupadas.indexOf(contenedorSeleccionado)!=-1);
+    return false;
 }

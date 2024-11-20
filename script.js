@@ -1,6 +1,17 @@
+import { dibujarPuntajes, actualizarPuntajeEmpatados,
+         actualizarPuntajePerdidos, actualizarPuntajeGanados }
+          from "./scriptPuntaje.js";
+
+import {mensajeResultado} from "./scriptModales.js";
+
 // checkboxs de la elección del usuario para jugar
 const eleccionO = document.getElementById('eleccionO');
 const eleccionX = document.getElementById('eleccionX');
+
+//Select de modo de juego 0 => fácil, 1 => medio, 2 => Difícil, 3 => imposible
+export const modoJuego = document.getElementById('modoJuego');
+//variable que guarda al empezar el juego el valor de modoJuego
+let nivel;
 
 // Contenedores secundarios los cuales representan cada una de las posiciones en el triqui
 const contenedoresSecundarios = document.getElementsByClassName('secundario');
@@ -76,19 +87,27 @@ eleccionX.addEventListener('change',()=>{
 });
 
 
-//evento de escucha en toda la pagina con el fin de:
+//evento de escucha de un click en toda la pagina con el fin de:
 // poder dibujar la selección del usuario según el contenedor secundario donde se haga click.
 // y posteriormente a ello que el programa dibuje su elección
 // la función es asíncrona ya que al modificar el DOM es necesario darle un tiempo para que 
 // termine su ejecución y las variables se asignen correctamente
 document.addEventListener('click', async function(event){
 
+    //Es necesario usar la siguiente función para evitar que el evento de escucha de un click
+    //se propague y genere un doble evento en la escucha de un cambio en el select modo de juego
+    event.stopPropagation();
+    
     if(event.target.classList[1] == 'secundario' && letraUsuario != 'Ninguna'){
 
         if(jugando == false){
-            jugando == true;
+            jugando = true;
             eleccionO.disabled = true;
             eleccionX.disabled = true;
+            modoJuego.disabled = true;
+            
+            nivel = modoJuego.value;
+            console.log(nivel)
         }
         
         contenedorSeleccionado = parseInt(event.target.id);
@@ -102,8 +121,8 @@ document.addEventListener('click', async function(event){
             verificarGanador();
 
             // jugada del programa
-            switch(jugada){
-                case 1:
+            if(jugando){
+                if(jugada == 1){
                     if(contenedorSeleccionado == 4){
                         usuarioCentro = true;
                         // se realiza la selección de cualquiera de las esquinas
@@ -112,20 +131,15 @@ document.addEventListener('click', async function(event){
                         // se selecciona el cuadro del centro
                         contenedorSeleccionado = 4;
                     }
-                    pintarYGuardarJugada(contenedorSeleccionado,letraPc);
-                    break;
-                case 9:
-                    //la jugada nueve es del usuario por tanto el programa no debería ejecutar mas jugadas
-                    jugando == false;
-                    console.log("juego terminado")
-                    break;
-                default:
+                }else{
                     opcionParaBloquear();
-                    await pintarYGuardarJugada(contenedorSeleccionado,letraPc);
-                    verificarGanador();
-                    break;
+                }
+                
+                await pintarYGuardarJugada(contenedorSeleccionado,letraPc);
 
+                verificarGanador();
             }
+            
         
         }
     }
@@ -165,20 +179,29 @@ function verificarGanador(){
         
         if(arregloAVerificar[0] == arregloAVerificar[1] && arregloAVerificar[1] == arregloAVerificar[2]){
            if(arregloAVerificar[0] == letraUsuario){
-                jugada = 9;
-                letraUsuario = "Ninguna";
-                alert("Felicidades has ganado");
+                terminarJuego(0); //1 => Usuario gano
                 return;
            }
            if(arregloAVerificar[0] == letraPc){
-                jugada = 9;
-                letraUsuario = "Ninguna";
-                alert("Lo siento te han ganado");
+                terminarJuego(0); //0 => Usuario perdió
                 return;
            }
         }
 
     }
+
+    if(jugada == 9){
+        terminarJuego(2); //2 => Empate
+    }
+
+}
+
+function terminarJuego(resultado){
+    jugada = 9;
+    letraUsuario = "Ninguna";
+    jugando = false;
+    console.log("juego terminado")
+    mensajeResultado(resultado);
 }
 
 //Esta función realiza unas verificaciones en el siguiente orden:
@@ -256,5 +279,4 @@ function armarArregloAVerificar(prueba){
         convertirIdAUbicacionMatriz(combinacionesGanadoras[prueba][i]);
         arregloAVerificar[i] = matrizJuego[columna][fila]; 
     }
-    console.log(arregloAVerificar);
 }

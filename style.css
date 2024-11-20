@@ -21,7 +21,7 @@ p{
 }
 
 h3{
-    margin: 0px 10px
+    margin: 0px 10px;
 }
 
 input, label{
@@ -151,6 +151,10 @@ button:active{
 
     h3,p, button, input, select, label{
         font-size: 18px;
+    }
+
+    h3{
+        margin: auto auto;
     }
 
     .eleccion{

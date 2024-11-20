@@ -83,3 +83,11 @@ export function mensajeResultado(resultado){
     timer: 5000
   });
 }
+
+export function escojaUnaOpcion(){
+  Swal.fire({
+    title:`${nombreUsuario} por favor elije una opción ya sea (O) o (X) con la que deseas jugar`,
+    showConfirmButton: false,
+    timer: 4000
+  });
+}

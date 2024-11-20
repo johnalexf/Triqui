@@ -1,8 +1,7 @@
-import { dibujarPuntajes, actualizarPuntajeEmpatados,
-         actualizarPuntajePerdidos, actualizarPuntajeGanados }
-          from "./scriptPuntaje.js";
+import { actualizarPuntajeEmpatados,actualizarPuntajePerdidos, 
+        actualizarPuntajeGanados } from "./scriptPuntaje.js";
 
-import {mensajeResultado} from "./scriptModales.js";
+import {mensajeResultado,escojaUnaOpcion} from "./scriptModales.js";
 
 // checkboxs de la elección del usuario para jugar
 const eleccionO = document.getElementById('eleccionO');
@@ -82,15 +81,24 @@ const btnNuevoJuego = document.getElementById('nuevoJuego');
 //Eventos de escucha para que al seleccionar un checkbox el otro se deseleccione
 // y asignación de la elección en la variable letraSeleccion
 eleccionO.addEventListener('change',()=>{
-    eleccionX.checked = false;
-    letraUsuario = "O";
-    letraPc = "X";
+    if(eleccionO.checked){
+        eleccionX.checked = false;
+        letraUsuario = "O";
+        letraPc = "X";
+    }else{
+        letraUsuario = "Ninguna";
+    }
+    
 });
 
 eleccionX.addEventListener('change',()=>{
-    eleccionO.checked = false;
-    letraUsuario = "X";
-    letraPc = "O";
+    if(eleccionX.checked){
+        eleccionO.checked = false;
+        letraUsuario = "X";
+        letraPc = "O";
+    }else{
+        letraUsuario = "Ninguna";
+    }  
 });
 
 
@@ -104,17 +112,21 @@ document.addEventListener('click', async function(event){
     //Es necesario usar la siguiente función para evitar que el evento de escucha de un click
     //se propague y genere un doble evento en la escucha de un cambio en el select modo de juego
     event.stopPropagation();
-    
-    if(event.target.classList[1] == 'secundario' && letraUsuario != 'Ninguna'){
 
-        if(jugando == false){
+    if(event.target.classList[1] == 'secundario' && !jugando  ){
+        if(letraUsuario != "Ninguna"){
             jugando = true;
             eleccionO.disabled = true;
             eleccionX.disabled = true;
             modoJuego.disabled = true;
-            
             nivel = modoJuego.value;
+        }else{
+            escojaUnaOpcion();
         }
+            
+    }
+    
+    if(event.target.classList[1] == 'secundario' && jugando){
         
         contenedorSeleccionado = parseInt(event.target.id);
 
@@ -210,7 +222,6 @@ function verificarGanador(){
 
 function terminarJuego(resultado){
     jugada = 9;
-    letraUsuario = "Ninguna";
     jugando = false;
     console.log("juego terminado")
     mensajeResultado(resultado);
@@ -323,9 +334,6 @@ function reiniciarJuego(){
     usuarioCentro = false;
     casillasOcupadas = [];
     jugando = false;
-    letraUsuario = "Ninguna";
-    eleccionX.checked = false;
-    eleccionO.checked = false;
     eleccionO.disabled = false;
     eleccionX.disabled = false;
     modoJuego.disabled = false;

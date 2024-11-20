@@ -51,6 +51,10 @@ let contenedorSeleccionado
 // y también para la cuarta jugada y hacer imposible que el usuario gane
 const arregloParaNoDejarGanar = [0,2,6,8];
 
+//arreglo especial para evitar que el usuario gane en modo imposible, cuando su primera jugada es en una esquina
+//y la segunda en las casillas 1,7,3 o 5 separada de la primera jugada.
+const arregloEspecial = [[1,7],[3,5]];
+
 // variable para saber si el usuario selecciono el centro en la primera jugada
 let usuarioCentro = false;
 
@@ -240,14 +244,28 @@ function opcionParaBloquear(){
             // ya que, lo que se busca es obtener un contenedor que sea de las esquinas y que no este dibujado con una jugada.
             }while(casillasOcupadas.indexOf(contenedorSeleccionado) != (-1) || arregloParaNoDejarGanar.indexOf(contenedorSeleccionado) == (-1));
         }else{
+            let contenedoresNoEscoger;
+            if( arregloEspecial[0].indexOf(contenedorSeleccionado) != (-1)){ //Que contenedor sea 1 o 7
+                contenedoresNoEscoger = arregloEspecial[0]; //contenedoresNoEscoger seria 1 o el 7
+            }else if(arregloEspecial[1].indexOf(contenedorSeleccionado) != (-1)){ //Que contenedor sea 3 o 5
+                contenedoresNoEscoger = arregloEspecial[1]; //contenedoresNoEscoger seria 3 o el 5
+            }
+           
+            console.log(contenedoresNoEscoger)
             do{
                 contenedorSeleccionado = Math.round(Math.random() * 8);
             // con la siguiente sentencia se confirma que el contenedorSeleccionado aleatoriamente cumpla con:
             // 1. Que sea un contenedor que ya esta dibujado con una jugada
-            // 2. Que sea un contenedor de las esquinas 
+            // 2. Que sea un contenedor de las esquinas
+            // 3. Que sea un contenedor opuesto a la ultima jugada
             // Se declara la condición como O, para que el bucle se mantenga hasta que ambas condiciones sean falsas
-            // ya que, lo que se busca es obtener un contenedor que sea de las esquinas y que no este dibujado con una jugada.
-            }while(casillasOcupadas.indexOf(contenedorSeleccionado) != (-1) || arregloParaNoDejarGanar.indexOf(contenedorSeleccionado) != (-1));
+            // ya que, lo que se busca es obtener un contenedor que: no sea de las esquinas, no este dibujado con una jugada y
+            // no sea un contenedor opuesto a la ultima jugada.
+           console.log(contenedorSeleccionado);
+            }while((casillasOcupadas.indexOf(contenedorSeleccionado) != (-1) || 
+                    arregloParaNoDejarGanar.indexOf(contenedorSeleccionado) != (-1) )||
+                    contenedoresNoEscoger.indexOf(contenedorSeleccionado) != (-1)
+                );
         }
         return;
     }

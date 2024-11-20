@@ -1,6 +1,17 @@
+import { dibujarPuntajes, actualizarPuntajeEmpatados,
+         actualizarPuntajePerdidos, actualizarPuntajeGanados }
+          from "./scriptPuntaje.js";
+
+import {mensajeResultado} from "./scriptModales.js";
+
 // checkboxs de la elección del usuario para jugar
 const eleccionO = document.getElementById('eleccionO');
 const eleccionX = document.getElementById('eleccionX');
+
+//Select de modo de juego 0 => fácil, 1 => medio, 2 => Difícil, 3 => imposible
+export const modoJuego = document.getElementById('modoJuego');
+//variable que guarda al empezar el juego el valor de modoJuego
+let nivel;
 
 // Contenedores secundarios los cuales representan cada una de las posiciones en el triqui
 const contenedoresSecundarios = document.getElementsByClassName('secundario');
@@ -61,6 +72,9 @@ const combinacionesGanadoras=[
 //arreglo que se va armando según cada una de las combinacionesGanadoras
 let arregloAVerificar = ["0","0","0"];
 
+//botón para empezar un nuevo juego
+const btnNuevoJuego = document.getElementById('nuevoJuego');
+
 //Eventos de escucha para que al seleccionar un checkbox el otro se deseleccione
 // y asignación de la elección en la variable letraSeleccion
 eleccionO.addEventListener('change',()=>{
@@ -76,19 +90,26 @@ eleccionX.addEventListener('change',()=>{
 });
 
 
-//evento de escucha en toda la pagina con el fin de:
+//evento de escucha de un click en toda la pagina con el fin de:
 // poder dibujar la selección del usuario según el contenedor secundario donde se haga click.
 // y posteriormente a ello que el programa dibuje su elección
 // la función es asíncrona ya que al modificar el DOM es necesario darle un tiempo para que 
 // termine su ejecución y las variables se asignen correctamente
 document.addEventListener('click', async function(event){
 
+    //Es necesario usar la siguiente función para evitar que el evento de escucha de un click
+    //se propague y genere un doble evento en la escucha de un cambio en el select modo de juego
+    event.stopPropagation();
+    
     if(event.target.classList[1] == 'secundario' && letraUsuario != 'Ninguna'){
 
         if(jugando == false){
-            jugando == true;
+            jugando = true;
             eleccionO.disabled = true;
             eleccionX.disabled = true;
+            modoJuego.disabled = true;
+            
+            nivel = modoJuego.value;
         }
         
         contenedorSeleccionado = parseInt(event.target.id);
@@ -102,30 +123,28 @@ document.addEventListener('click', async function(event){
             verificarGanador();
 
             // jugada del programa
-            switch(jugada){
-                case 1:
-                    if(contenedorSeleccionado == 4){
-                        usuarioCentro = true;
-                        // se realiza la selección de cualquiera de las esquinas
-                        contenedorSeleccionado = arregloParaNoDejarGanar[Math.round(Math.random() * 3)];
+            if(jugando){
+                if(nivel != 0){
+                    if(jugada == 1){
+                        if(contenedorSeleccionado == 4){
+                            usuarioCentro = true;
+                            // se realiza la selección de cualquiera de las esquinas
+                            contenedorSeleccionado = arregloParaNoDejarGanar[Math.round(Math.random() * 3)];
+                        }else{
+                            // se selecciona el cuadro del centro
+                            contenedorSeleccionado = 4;
+                        }
                     }else{
-                        // se selecciona el cuadro del centro
-                        contenedorSeleccionado = 4;
+                        opcionParaBloquear();
                     }
-                    pintarYGuardarJugada(contenedorSeleccionado,letraPc);
-                    break;
-                case 9:
-                    //la jugada nueve es del usuario por tanto el programa no debería ejecutar mas jugadas
-                    jugando == false;
-                    console.log("juego terminado")
-                    break;
-                default:
-                    opcionParaBloquear();
-                    await pintarYGuardarJugada(contenedorSeleccionado,letraPc);
-                    verificarGanador();
-                    break;
+                } else{
+                    seleccionAlAzar();
+                }
+                await pintarYGuardarJugada(contenedorSeleccionado,letraPc);
 
+                verificarGanador();
             }
+            
         
         }
     }
@@ -165,20 +184,32 @@ function verificarGanador(){
         
         if(arregloAVerificar[0] == arregloAVerificar[1] && arregloAVerificar[1] == arregloAVerificar[2]){
            if(arregloAVerificar[0] == letraUsuario){
-                jugada = 9;
-                letraUsuario = "Ninguna";
-                alert("Felicidades has ganado");
+                terminarJuego(1); //1 => Usuario gano
+                actualizarPuntajeGanados(nivel);
                 return;
            }
            if(arregloAVerificar[0] == letraPc){
-                jugada = 9;
-                letraUsuario = "Ninguna";
-                alert("Lo siento te han ganado");
+                terminarJuego(0); //0 => Usuario perdió
+                actualizarPuntajePerdidos(nivel);
                 return;
            }
         }
 
     }
+
+    if(jugada == 9){
+        terminarJuego(2); //2 => Empate
+        actualizarPuntajeEmpatados(nivel);
+    }
+
+}
+
+function terminarJuego(resultado){
+    jugada = 9;
+    letraUsuario = "Ninguna";
+    jugando = false;
+    console.log("juego terminado")
+    mensajeResultado(resultado);
 }
 
 //Esta función realiza unas verificaciones en el siguiente orden:
@@ -188,17 +219,17 @@ function verificarGanador(){
 //4. Si ninguna de las anteriores se cumple, la jugada del programa es al azar.
 function opcionParaBloquear(){
         
-    if(opcionParaGanar(letraPc)){
+    if(opcionParaGanar(letraPc) && nivel > 1 ){
         console.log("opcion para ganar el pc");
         return;
     }
 
-    if(opcionParaGanar(letraUsuario)){
+    if(opcionParaGanar(letraUsuario) && nivel > 1){
         console.log("opcion para bloquiar al usuario");
         return;
     }
 
-    if(jugada == 3){
+    if(jugada == 3 && nivel == 3){
         if(usuarioCentro){
             do{
                 contenedorSeleccionado = Math.round(Math.random() * 8);
@@ -221,6 +252,10 @@ function opcionParaBloquear(){
         return;
     }
 
+    seleccionAlAzar();
+}
+
+function seleccionAlAzar(){
     do{
         contenedorSeleccionado = Math.round(Math.random() * 8);
     }while(casillasOcupadas.indexOf(contenedorSeleccionado)!=-1);
@@ -256,5 +291,29 @@ function armarArregloAVerificar(prueba){
         convertirIdAUbicacionMatriz(combinacionesGanadoras[prueba][i]);
         arregloAVerificar[i] = matrizJuego[columna][fila]; 
     }
-    console.log(arregloAVerificar);
+}
+
+btnNuevoJuego.addEventListener('click',reiniciarJuego);
+
+function reiniciarJuego(){
+    jugada = 0;
+    matrizJuego = [
+        ["0","0","0"],
+        ["0","0","0"],
+        ["0","0","0"]
+    ];
+    usuarioCentro = false;
+    casillasOcupadas = [];
+    jugando = false;
+    letraUsuario = "Ninguna";
+    eleccionX.checked = false;
+    eleccionO.checked = false;
+    eleccionO.disabled = false;
+    eleccionX.disabled = false;
+    modoJuego.disabled = false;
+    
+    for(let i=0; i<contenedoresSecundarios.length;i++){
+        contenedoresSecundarios[i].innerHTML = "";
+    }
+
 }

@@ -13,13 +13,14 @@
 
     <!-- Estilos de la pagina -->
     <link rel="stylesheet" href="style.css">
+
+    <link rel="stylesheet" href="styleSwal.css">
 </head>
 <body>
     <main>
         <h1>Triqui</h1>
 
-        <p>Bienvenido <SPAN>John</SPAN></p> 
-        <p>Elije el nivel y la opción con la cual deseas jugar</p>
+        <p> <span id="nombreUsuarioDOM"></span>, elije el nivel y la opción con la cual deseas jugar</p>
 
         <div class="eleccion">
 
@@ -27,9 +28,9 @@
                 <label for="modoJuego"> Nivel </label>
                 <select name="modoJuego" id="modoJuego">
                     <option value="0">Fácil</option>
-                    <option value="0">Medio</option>
-                    <option value="0">Difícil</option>
-                    <option value="0">Imposible</option>
+                    <option value="1">Medio</option>
+                    <option value="2">Difícil</option>
+                    <option value="3">Imposible</option>
                 </select>
             </div>
             
@@ -70,17 +71,17 @@
 
                 <div class="puntajesEspecifico">
                     <h3> Ganados </h3>
-                    <input type="text" disabled>
+                    <input type="text" name="ganados" id="ganados" placeholder="0" disabled>
                 </div>
                 
                 <div class="puntajesEspecifico">
                     <h3> Empatados </h3>
-                    <input type="text" disabled>
+                    <input type="text" name="empatados" id="empatados" placeholder="0" disabled>
                 </div>
                 
                 <div class="puntajesEspecifico">
                     <h3> Perdidos </h3>
-                    <input type="text" disabled>
+                    <input type="text" name="perdidos" id="perdidos" placeholder="0" disabled>
                 </div>
 
                 <button id="reiniciar"> Reiniciar Puntaje</button>
@@ -88,24 +89,17 @@
             </div>
         </div>
 
-        <button id="nuevoJuego" onclick="location.reload()"> Nuevo Juego </button>
+        <button id="nuevoJuego"> Nuevo Juego </button>
 
     </main>
 
-    <p id="pantallaSize">El tamaño de tu pantalla será mostrado aquí.</p>
+    
+    
 
-    <script>
-        // Obtener el elemento del párrafo
-        const pantallaSizeElement = document.getElementById('pantallaSize');
-
-        // Obtener el ancho y alto de la ventana
-        const ancho = window.innerWidth;
-        const alto = window.innerHeight;
-
-        // Actualizar el contenido del párrafo
-        pantallaSizeElement.textContent = `El ancho de tu pantalla es: ${ancho}px y el alto es: ${alto}px`;
-    </script>
-    <script src="script.js" type="module"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="scriptModales.js" type="module"></script>
+    <script src="scriptPuntaje.js" type="module"></script>
+    <script src="script.js" type="module"></script>
+    
 </body>
 </html>

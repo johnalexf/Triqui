@@ -256,10 +256,14 @@ function opcionParaBloquear(){
             }while(casillasOcupadas.indexOf(contenedorSeleccionado) != (-1) || arregloParaNoDejarGanar.indexOf(contenedorSeleccionado) == (-1));
         }else{
             let contenedoresNoEscoger=[9];
-            if( arregloEspecial[0].indexOf(contenedorSeleccionado) != (-1)){ //Que contenedor sea 1 o 7
-                contenedoresNoEscoger = arregloEspecial[0]; //contenedoresNoEscoger seria 1 o el 7
-            }else if(arregloEspecial[1].indexOf(contenedorSeleccionado) != (-1)){ //Que contenedor sea 3 o 5
-                contenedoresNoEscoger = arregloEspecial[1]; //contenedoresNoEscoger seria 3 o el 5
+            for(let i=0 ; i<casillasOcupadas.length ; i++){
+                if( arregloEspecial[0].indexOf(casillasOcupadas[i]) != (-1)){ //Que contenedor sea 1 o 7
+                    contenedoresNoEscoger = arregloEspecial[0]; //contenedoresNoEscoger seria 1 o el 7
+                    break;
+                }else if(arregloEspecial[1].indexOf(casillasOcupadas[i]) != (-1)){ //Que contenedor sea 3 o 5
+                    contenedoresNoEscoger = arregloEspecial[1]; //contenedoresNoEscoger seria 3 o el 5
+                    break;
+                }
             }
            
             console.log(contenedoresNoEscoger)

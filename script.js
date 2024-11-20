@@ -185,10 +185,12 @@ function verificarGanador(){
         if(arregloAVerificar[0] == arregloAVerificar[1] && arregloAVerificar[1] == arregloAVerificar[2]){
            if(arregloAVerificar[0] == letraUsuario){
                 terminarJuego(1); //1 => Usuario gano
+                actualizarPuntajeGanados(nivel);
                 return;
            }
            if(arregloAVerificar[0] == letraPc){
                 terminarJuego(0); //0 => Usuario perdió
+                actualizarPuntajePerdidos(nivel);
                 return;
            }
         }
@@ -197,6 +199,7 @@ function verificarGanador(){
 
     if(jugada == 9){
         terminarJuego(2); //2 => Empate
+        actualizarPuntajeEmpatados(nivel);
     }
 
 }

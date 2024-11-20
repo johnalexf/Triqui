@@ -25,21 +25,22 @@ export function dibujarPuntajes(nivel){
     ganados.value = puntajes[nivel].ganados;
     empatados.value = puntajes[nivel].empatados;
     perdidos.value = puntajes[nivel].perdidos;
-    
+    localStorage.setItem('puntajes',JSON.stringify(puntajes));
 }
 
-export function actualizarPuntajeGanados(nivel, nuevoGanados){
-    puntajes[nivel].ganados = nuevoGanados;
+export function actualizarPuntajeGanados(nivel){
+    puntajes[nivel].ganados++;
+    console.log(puntajes[nivel].ganados);
     dibujarPuntajes(nivel);
 }
 
-export function actualizarPuntajeEmpatados(nivel, nuevoEmpatados){
-    puntajes[nivel].empatados = nuevoEmpatados;
+export function actualizarPuntajeEmpatados(nivel){
+    puntajes[nivel].empatados++;
     dibujarPuntajes(nivel);
 }
 
-export function actualizarPuntajePerdidos(nivel,  nuevoPerdidos){
-    puntajes[nivel].perdidos = nuevoPerdidos;
+export function actualizarPuntajePerdidos(nivel){
+    puntajes[nivel].perdidos++;
     dibujarPuntajes(nivel);
 }
 

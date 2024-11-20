@@ -72,6 +72,9 @@ const combinacionesGanadoras=[
 //arreglo que se va armando según cada una de las combinacionesGanadoras
 let arregloAVerificar = ["0","0","0"];
 
+//botón para empezar un nuevo juego
+const btnNuevoJuego = document.getElementById('nuevoJuego');
+
 //Eventos de escucha para que al seleccionar un checkbox el otro se deseleccione
 // y asignación de la elección en la variable letraSeleccion
 eleccionO.addEventListener('change',()=>{
@@ -107,7 +110,6 @@ document.addEventListener('click', async function(event){
             modoJuego.disabled = true;
             
             nivel = modoJuego.value;
-            console.log(nivel)
         }
         
         contenedorSeleccionado = parseInt(event.target.id);
@@ -122,19 +124,22 @@ document.addEventListener('click', async function(event){
 
             // jugada del programa
             if(jugando){
-                if(jugada == 1){
-                    if(contenedorSeleccionado == 4){
-                        usuarioCentro = true;
-                        // se realiza la selección de cualquiera de las esquinas
-                        contenedorSeleccionado = arregloParaNoDejarGanar[Math.round(Math.random() * 3)];
+                if(nivel != 0){
+                    if(jugada == 1){
+                        if(contenedorSeleccionado == 4){
+                            usuarioCentro = true;
+                            // se realiza la selección de cualquiera de las esquinas
+                            contenedorSeleccionado = arregloParaNoDejarGanar[Math.round(Math.random() * 3)];
+                        }else{
+                            // se selecciona el cuadro del centro
+                            contenedorSeleccionado = 4;
+                        }
                     }else{
-                        // se selecciona el cuadro del centro
-                        contenedorSeleccionado = 4;
+                        opcionParaBloquear();
                     }
-                }else{
-                    opcionParaBloquear();
+                } else{
+                    seleccionAlAzar();
                 }
-                
                 await pintarYGuardarJugada(contenedorSeleccionado,letraPc);
 
                 verificarGanador();
@@ -179,7 +184,7 @@ function verificarGanador(){
         
         if(arregloAVerificar[0] == arregloAVerificar[1] && arregloAVerificar[1] == arregloAVerificar[2]){
            if(arregloAVerificar[0] == letraUsuario){
-                terminarJuego(0); //1 => Usuario gano
+                terminarJuego(1); //1 => Usuario gano
                 return;
            }
            if(arregloAVerificar[0] == letraPc){
@@ -211,17 +216,17 @@ function terminarJuego(resultado){
 //4. Si ninguna de las anteriores se cumple, la jugada del programa es al azar.
 function opcionParaBloquear(){
         
-    if(opcionParaGanar(letraPc)){
+    if(opcionParaGanar(letraPc) && nivel > 1 ){
         console.log("opcion para ganar el pc");
         return;
     }
 
-    if(opcionParaGanar(letraUsuario)){
+    if(opcionParaGanar(letraUsuario) && nivel > 1){
         console.log("opcion para bloquiar al usuario");
         return;
     }
 
-    if(jugada == 3){
+    if(jugada == 3 && nivel == 3){
         if(usuarioCentro){
             do{
                 contenedorSeleccionado = Math.round(Math.random() * 8);
@@ -244,6 +249,10 @@ function opcionParaBloquear(){
         return;
     }
 
+    seleccionAlAzar();
+}
+
+function seleccionAlAzar(){
     do{
         contenedorSeleccionado = Math.round(Math.random() * 8);
     }while(casillasOcupadas.indexOf(contenedorSeleccionado)!=-1);
@@ -279,4 +288,29 @@ function armarArregloAVerificar(prueba){
         convertirIdAUbicacionMatriz(combinacionesGanadoras[prueba][i]);
         arregloAVerificar[i] = matrizJuego[columna][fila]; 
     }
+}
+
+btnNuevoJuego.addEventListener('click',reiniciarJuego);
+
+function reiniciarJuego(){
+    jugada = 0;
+    matrizJuego = [
+        ["0","0","0"],
+        ["0","0","0"],
+        ["0","0","0"]
+    ];
+    usuarioCentro = false;
+    casillasOcupadas = [];
+    jugando = false;
+    letraUsuario = "Ninguna";
+    eleccionX.checked = false;
+    eleccionO.checked = false;
+    eleccionO.disabled = false;
+    eleccionX.disabled = false;
+    modoJuego.disabled = false;
+    
+    for(let i=0; i<contenedoresSecundarios.length;i++){
+        contenedoresSecundarios[i].innerHTML = "";
+    }
+
 }

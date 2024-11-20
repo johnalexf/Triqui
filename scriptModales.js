@@ -68,7 +68,7 @@ export function mensajeResultado(resultado){
       mensaje = `Lo siento ${nombreUsuario} has perdido, inténtalo de nuevo`;
       break;
     case 1: 
-      mensaje = `Felicitaciones ${nombreUsuario} has ganado, te atreves a subir de nivel!`;
+      mensaje = `Felicitaciones ${nombreUsuario} has ganado, ¿te atreves a subir de nivel?`;
       break;
     case 2: 
       mensaje = `${nombreUsuario} hemos quedado empatados, que reñido estuvo`;
@@ -76,8 +76,6 @@ export function mensajeResultado(resultado){
     default :
       console.log("Error en el uso de la función mensajeResultado");
   }
-  console.log(nombreUsuario);
-    console.log(mensaje);
 
   Swal.fire({
     title: mensaje,

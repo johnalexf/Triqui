@@ -48,6 +48,5 @@ export function actualizarPuntajePerdidos(nivel,  nuevoPerdidos){
 //por tanto es necesario usar ()=>{} o declarar una función antes para que permita
 //enviar el parámetro necesario a la función que se invoca.
 modoJuego.addEventListener('change', ()=>{
-    console.log(modoJuego.value);
     dibujarPuntajes(modoJuego.value);
 });

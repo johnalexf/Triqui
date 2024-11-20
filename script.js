@@ -255,7 +255,7 @@ function opcionParaBloquear(){
             // ya que, lo que se busca es obtener un contenedor que sea de las esquinas y que no este dibujado con una jugada.
             }while(casillasOcupadas.indexOf(contenedorSeleccionado) != (-1) || arregloParaNoDejarGanar.indexOf(contenedorSeleccionado) == (-1));
         }else{
-            let contenedoresNoEscoger;
+            let contenedoresNoEscoger=[9];
             if( arregloEspecial[0].indexOf(contenedorSeleccionado) != (-1)){ //Que contenedor sea 1 o 7
                 contenedoresNoEscoger = arregloEspecial[0]; //contenedoresNoEscoger seria 1 o el 7
             }else if(arregloEspecial[1].indexOf(contenedorSeleccionado) != (-1)){ //Que contenedor sea 3 o 5

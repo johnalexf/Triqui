@@ -1,0 +1,18 @@
+.lineaGanador {
+    display: none; /* Ocultar el modal por defecto */
+    position: absolute; /* Fijar el modal en la ventana */
+    z-index: 1; /* Asegurar que el modal esté encima de otros elementos */
+    border-radius: 6px;
+    background-color: rgba(235, 85, 85, 0.966); /* Fondo oscuro semitransparente */
+
+/* Los parametros siguientes son asignados por el scriptLineaGanador.js
+    los cuales dependeran de la linea que haya ganado.
+*/
+    /* width: 200px; */
+    /* height: 20px; */
+    /* transform: rotate(45deg); */
+    /* top: 0px;
+    left: 0px; */
+    
+    
+  }

@@ -48,7 +48,7 @@ function bienvenido(){
   Swal.fire({
     title:`Bienvenido ${nombreUsuario} al juego de Triqui`,
     showConfirmButton: false,
-    timer: 3000,
+    timer: 200,
     didOpen: ()=>{ Swal.showLoading()}
   });
   nombreUsuarioDOM.textContent = nombreUsuario;

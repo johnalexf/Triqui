@@ -36,7 +36,7 @@ select{
     height: 22px;
 }
 
-.eleccion, button{
+button{
     margin: 20px;
 }
 
@@ -68,20 +68,20 @@ select{
 .juego{
     margin: auto;
     padding: 5px;
-    max-width: 610px;
+    max-width: 630px;
     display: grid;
     grid-template-columns: 3fr 1fr;
 }
 
 .principal{
     margin: auto;
-    width: 450px;
+    width: 470px;
     display: grid;
     grid-template-columns: repeat(3,1fr);
 }
 
 .secundario{
-    width: auto;
+    width: 150px;
     height: 150px;
     display: flex;
     align-items: center;
@@ -146,7 +146,7 @@ button:active{
     transition: all 0.4s ease-in-out;
 }
 
-@media (width < 650px){
+@media (width < 680px){
 
 
     h3,p, button, input, select, label{
@@ -164,7 +164,7 @@ button:active{
     }
 
     .juego{
-        max-width: 300px;
+        max-width: 324px;
         grid-template-columns: 1fr;
     }
 
@@ -173,7 +173,8 @@ button:active{
     }
 
     .secundario{
-        height: 80px;
+        width: 100px;
+        height: 100px;
     }
 
     .puntaje{
@@ -199,7 +200,18 @@ button:active{
 
 }
 
-@media  (width < 330px) {
+@media  (width < 360px) {
+
+    .juego{
+        max-width: 264px;
+        grid-template-columns: 1fr;
+    }
+
+    .secundario{
+        max-width: 80px;
+        max-height: 80px;
+    }
+
     .opcion{
         display: grid;
         grid-template-columns: 1fr 1fr;

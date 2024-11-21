@@ -3,6 +3,8 @@ import { actualizarPuntajeEmpatados,actualizarPuntajePerdidos,
 
 import {mensajeResultado,escojaUnaOpcion} from "./scriptModales.js";
 
+import {calcularYDibujarLineaGanadora, ocultarLineaGanadora} from "./scriptLineaGanador.js"
+
 // checkboxs de la elección del usuario para jugar
 const eleccionO = document.getElementById('eleccionO');
 const eleccionX = document.getElementById('eleccionX');
@@ -13,7 +15,7 @@ export const modoJuego = document.getElementById('modoJuego');
 let nivel;
 
 // Contenedores secundarios los cuales representan cada una de las posiciones en el triqui
-const contenedoresSecundarios = document.getElementsByClassName('secundario');
+export const contenedoresSecundarios = document.getElementsByClassName('secundario');
 
 //variable de inicio del juego
 let jugando = false;
@@ -69,11 +71,15 @@ const combinacionesGanadoras=[
     [1,4,7],
     [2,5,8],
     [0,4,8],
-    [6,4,2]
+    [2,4,6]
 ];
 
 //arreglo que se va armando según cada una de las combinacionesGanadoras
 let arregloAVerificar = ["0","0","0"];
+
+//variables que almacenaran el contenedorInicial y el contenedorFinal de la jugada ganadora
+let contenedorInicial;
+let contenedorFinal;
 
 //botón para empezar un nuevo juego
 const btnNuevoJuego = document.getElementById('nuevoJuego');
@@ -200,11 +206,13 @@ function verificarGanador(){
         
         if(arregloAVerificar[0] == arregloAVerificar[1] && arregloAVerificar[1] == arregloAVerificar[2]){
            if(arregloAVerificar[0] == letraUsuario){
+                asignarContenedoresGanadores(prueba);
                 terminarJuego(1); //1 => Usuario gano
                 actualizarPuntajeGanados(nivel);
                 return;
            }
            if(arregloAVerificar[0] == letraPc){
+                asignarContenedoresGanadores(prueba);
                 terminarJuego(0); //0 => Usuario perdió
                 actualizarPuntajePerdidos(nivel);
                 return;
@@ -223,7 +231,10 @@ function verificarGanador(){
 function terminarJuego(resultado){
     jugada = 9;
     jugando = false;
-    console.log("juego terminado")
+    console.log("juego terminado");
+    if(resultado != 2){
+        calcularYDibujarLineaGanadora(contenedorInicial,contenedorFinal);
+    }
     mensajeResultado(resultado);
 }
 
@@ -356,6 +367,13 @@ function armarArregloAVerificar(prueba){
     }
 }
 
+function asignarContenedoresGanadores (opcGanadora){
+    
+    contenedorInicial = combinacionesGanadoras[opcGanadora][0];
+    contenedorFinal = combinacionesGanadoras[opcGanadora][2];   
+    
+}
+
 btnNuevoJuego.addEventListener('click',reiniciarJuego);
 
 function reiniciarJuego(){
@@ -375,5 +393,7 @@ function reiniciarJuego(){
     for(let i=0; i<contenedoresSecundarios.length;i++){
         contenedoresSecundarios[i].innerHTML = "";
     }
+
+    ocultarLineaGanadora();
 
 }

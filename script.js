@@ -113,7 +113,7 @@ document.addEventListener('click', async function(event){
     //se propague y genere un doble evento en la escucha de un cambio en el select modo de juego
     event.stopPropagation();
 
-    if(event.target.classList[1] == 'secundario' && !jugando  ){
+    if(event.target.classList[1] == 'secundario' && !jugando && jugada == 0 ){
         if(letraUsuario != "Ninguna"){
             jugando = true;
             eleccionO.disabled = true;
@@ -126,7 +126,7 @@ document.addEventListener('click', async function(event){
             
     }
     
-    if(event.target.classList[1] == 'secundario' && jugando){
+    if(event.target.classList[1] == 'secundario' && jugando ){
         
         contenedorSeleccionado = parseInt(event.target.id);
 
@@ -255,31 +255,61 @@ function opcionParaBloquear(){
             // ya que, lo que se busca es obtener un contenedor que sea de las esquinas y que no este dibujado con una jugada.
             }while(casillasOcupadas.indexOf(contenedorSeleccionado) != (-1) || arregloParaNoDejarGanar.indexOf(contenedorSeleccionado) == (-1));
         }else{
-            let contenedoresNoEscoger=[9];
-            for(let i=0 ; i<casillasOcupadas.length ; i++){
-                if( arregloEspecial[0].indexOf(casillasOcupadas[i]) != (-1)){ //Que contenedor sea 1 o 7
-                    contenedoresNoEscoger = arregloEspecial[0]; //contenedoresNoEscoger seria 1 o el 7
-                    break;
-                }else if(arregloEspecial[1].indexOf(casillasOcupadas[i]) != (-1)){ //Que contenedor sea 3 o 5
-                    contenedoresNoEscoger = arregloEspecial[1]; //contenedoresNoEscoger seria 3 o el 5
-                    break;
+            // opciones que hay que bloquiar cuando el PC tiene su jugada en el centro
+            // en donde N es donde no deberia jugar el PC para que el usuario no gane
+            // 1. usuario escoje dos centros laterales
+            //     [-,1,-]     [-,1,-]     [N,N,-]     [-,N,N]     [-,1,-]     [-,-,-]   
+            //     [N,X,5]     [3,X,N]     [N,X,5]     [3,X,N]     [-,X,-]     [3,X,5]    
+            //     [N,N,-]     [-,N,N]     [-,7,-]     [-,7,-]     [-,7,-]     [-,-,-] 
+            // 2. usuario escoje un centro lateral y una esquina opuesta
+            //     [-,1,-]  [-,1,-]     [-,-,2]  [-,-,N]     [N,-,-]   [0,-,-]     [N,N,3]  [0,N,N]
+            //     [-,X,-]  [-,X,-]     [3,X,N]  [3,X,N]     [N,X,5]   [N,X,5]     [-,X,-]  [-,X,-]
+            //     [N,N,8]  [6,N,N]     [-,-,N]  [-,-,8]     [6,-,-]   [N,-,-]     [-,7,-]  [-,7,-]
+            // 3. usuario escoje dos esquinas opuestas
+            //     [0,-,N]  [N,-,2]   
+            //     [-,X,-]  [-,X,-]   
+            //     [N,-,8]  [6,-,N]  
+            //En las opciones 2 y 3 por conveniencia se elejira que la jugada del PC no sea en las esquinas, y la
+            //diferencia con la jugada 2 es que no debe ser opuesta a la jugada lateral del usuario.
+            //Para la jugada uno la condicion cambia, ahora la jugada del PC deberia estar al lado de las jugadas del usuario
+
+            let contenedoresSiEscoger = [];
+            if( casillasOcupadas[0] % 2 == 1 && casillasOcupadas[2] % 2 == 1 ){ // Condicion para verificar si el usuario elijio dos centros laterales
+                
+                for(let i=0 ; i<=2 ; i=i+2 ){
+                    if(casillasOcupadas[i] == 1 || casillasOcupadas[i] == 7){
+                        contenedoresSiEscoger.push(casillasOcupadas[i]-1,casillasOcupadas[i]+1);
+                    }else{
+                        contenedoresSiEscoger.push(casillasOcupadas[i]-3,casillasOcupadas[i]+3);
+                    }
                 }
+
+            }else if (casillasOcupadas[0] % 2 == 1 || casillasOcupadas[2] % 2 == 1 ){ // Condicion para verificar si el usuario elijio un centro lateral y una esquina
+
+                for(let i=0 ; i<=2 ; i=i+2 ){
+                    if(casillasOcupadas[i] == 1 || casillasOcupadas[i] == 7){
+                        contenedoresSiEscoger.push(3,5);
+                    }else if(casillasOcupadas[i] == 3 || casillasOcupadas[i] == 5){
+                        contenedoresSiEscoger.push(1,7);
+                    }
+                }
+
+            }else{ //si no, el usuario entonces elijio dos esquinas opuestas, ya que los if de opcionesparaGanar se verifica que sean esquinas paralelas
+                contenedoresSiEscoger = [1,3,5,7];
             }
            
-            console.log(contenedoresNoEscoger)
+            console.log(contenedoresSiEscoger)
             do{
                 contenedorSeleccionado = Math.round(Math.random() * 8);
             // con la siguiente sentencia se confirma que el contenedorSeleccionado aleatoriamente cumpla con:
             // 1. Que sea un contenedor que ya esta dibujado con una jugada
-            // 2. Que sea un contenedor de las esquinas
-            // 3. Que sea un contenedor opuesto a la ultima jugada
+            // 2. Que sea un contenedor que no se deba escoger
             // Se declara la condición como O, para que el bucle se mantenga hasta que ambas condiciones sean falsas
-            // ya que, lo que se busca es obtener un contenedor que: no sea de las esquinas, no este dibujado con una jugada y
-            // no sea un contenedor opuesto a la ultima jugada.
+            // ya que, lo que se busca es obtener un contenedor que:  no este dibujado con una jugada y
+            // sea un contenedor que si se pueda escoger.
            console.log(contenedorSeleccionado);
-            }while((casillasOcupadas.indexOf(contenedorSeleccionado) != (-1) || 
-                    arregloParaNoDejarGanar.indexOf(contenedorSeleccionado) != (-1) )||
-                    contenedoresNoEscoger.indexOf(contenedorSeleccionado) != (-1)
+            }while(casillasOcupadas.indexOf(contenedorSeleccionado) != (-1) || 
+                    contenedoresSiEscoger.indexOf(contenedorSeleccionado) == (-1)
                 );
         }
         return;

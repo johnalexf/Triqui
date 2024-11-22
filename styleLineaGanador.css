@@ -3,10 +3,10 @@
     position: absolute; /* Fijar el modal en la ventana */
     z-index: 1; /* Asegurar que el modal esté encima de otros elementos */
     border-radius: 6px;
-    background-color: rgba(235, 85, 85, 0.966); /* Fondo oscuro semitransparente */
-
     width: 0;
     height: 0;
+
+    background-color: #ffffffb9; /* Fondo oscuro semitransparente */
     
 /* Los parametros siguientes son asignados por el scriptLineaGanador.js
     los cuales dependeran de la linea que haya ganado.

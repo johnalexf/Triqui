@@ -4,6 +4,11 @@
     text-align: center;
 }
 
+body{
+    background-color: #CCCCCC;
+}
+
+
 h1{ 
     font-weight: 900;
 }
@@ -91,7 +96,6 @@ button{
 
 .secundario p{
     font-size: 80px;
-    color: red;
     opacity: 0;
     transform: scale(0);
 }
@@ -100,10 +104,15 @@ button{
     opacity: 1;
     transform: scale(1);
     transition: all 1s ease-in-out;
-    
-    color: blue;
 }
 
+.colorX{
+    color: #F12520;
+}
+
+.colorO{
+    color: blue;
+}
 .puntaje{
     display: grid;
     grid-template-rows: repeat(5,1fr);

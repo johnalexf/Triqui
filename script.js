@@ -177,9 +177,7 @@ document.addEventListener('click', async function(event){
 // siguientes se asignen correctamente.
 function pintarYGuardarJugada(id, letra){
     return new Promise( (resolve)=>{
-        contenedoresSecundarios[id].innerHTML = `<p> ${letra} </p>`;
-
-        
+        contenedoresSecundarios[id].innerHTML = `<p class="color${letra}"> ${letra} </p>`;
 
         convertirIdAUbicacionMatriz(id);
         matrizJuego[columna][fila] = letra;

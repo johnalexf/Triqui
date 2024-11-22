@@ -1,4 +1,4 @@
-let nombreUsuario = localStorage.getItem('nombreUsuario').toUpperCase();
+let nombreUsuario = localStorage.getItem('nombreUsuario');
 
 const  nombreUsuarioDOM = document.getElementById('nombreUsuarioDOM');
 console.log(nombreUsuario);
@@ -24,7 +24,7 @@ async function modalCapturarNombre(){
     console.log(nombre);
     
     if (nombre) {
-      nombreUsuario = nombre;
+      nombreUsuario = nombre.toUpperCase();
       mostrarModal = false;
       localStorage.setItem('nombreUsuario',nombreUsuario);
       bienvenido();

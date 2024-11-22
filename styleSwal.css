@@ -3,6 +3,14 @@
     font-weight: normal;
 }
 
-.swal2-confirm{
+.swal2-confirm .swal2-cancel{
     font-size: 18px;
+}
+
+.swal2-confirm{
+    background-color: #3085d6;
+}
+
+.swal2-cancel{
+    background-color: #d33;
 }

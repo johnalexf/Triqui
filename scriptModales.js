@@ -100,3 +100,33 @@ export function escojaUnaOpcion(){
     timerProgressBar: true
   });
 }
+
+export async function seguroDeseaNuevoJuego(){
+  let respuesta = false;
+  
+  console.log("funcion seguro desea nuevo juego?")
+  await Swal.fire({
+    title: `${nombreUsuario} no has terminado el juego, si empiezas uno nuevo se considera como abandono del actual y por consiguiente 
+    lo perderas, aun así, ¿Estas seguro de empezar un nuevo juego?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí',
+    cancelButtonText: 'No'
+  }).then((result) => {
+    if (result.isConfirmed){
+      respuesta = true;
+      cargando();
+    } 
+  });
+
+  
+  return respuesta;
+}
+
+function cargando(){
+  Swal.fire({
+    showConfirmButton: false,
+    timer: 2000,
+    didOpen: ()=>{ Swal.showLoading()}
+  });
+}

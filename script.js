@@ -1,7 +1,7 @@
 import { actualizarPuntajeEmpatados,actualizarPuntajePerdidos, 
         actualizarPuntajeGanados } from "./scriptPuntaje.js";
 
-import {mensajeResultado,escojaUnaOpcion} from "./scriptModales.js";
+import {mensajeResultado,escojaUnaOpcion, seguroDeseaNuevoJuego} from "./scriptModales.js";
 
 import {calcularYDibujarLineaGanadora, ocultarLineaGanadora} from "./scriptLineaGanador.js"
 
@@ -231,16 +231,6 @@ function verificarGanador(){
 
 }
 
-async function terminarJuego(resultado){
-    jugada = 9;
-    jugando = false;
-    console.log("juego terminado");
-    if(resultado != 2){
-        await calcularYDibujarLineaGanadora(contenedorInicial,contenedorFinal);
-    }
-    await mensajeResultado(resultado);
-}
-
 //Esta función realiza unas verificaciones en el siguiente orden:
 //1. Verifica si el pc tiene opción de ganar y asigna la respectiva celda ganadora
 //2. Verifica si el usuario esta a punto de ganar y asigna la celda para bloquearlo
@@ -377,26 +367,57 @@ function asignarContenedoresGanadores (opcGanadora){
     
 }
 
+
+async function terminarJuego(resultado){
+    jugada == 9;
+    jugando = false;
+    console.log("juego terminado");
+    if(resultado != 2){
+        await calcularYDibujarLineaGanadora(contenedorInicial,contenedorFinal);
+    }
+    await mensajeResultado(resultado);
+    
+}
+
 btnNuevoJuego.addEventListener('click',reiniciarJuego);
 
-function reiniciarJuego(){
-    jugada = 0;
-    matrizJuego = [
-        ["0","0","0"],
-        ["0","0","0"],
-        ["0","0","0"]
-    ];
-    usuarioCentro = false;
-    casillasOcupadas = [];
-    jugando = false;
-    eleccionO.disabled = false;
-    eleccionX.disabled = false;
-    modoJuego.disabled = false;
-    
-    for(let i=0; i<contenedoresSecundarios.length;i++){
-        contenedoresSecundarios[i].innerHTML = "";
+async function reiniciarJuego(){
+
+
+    // si el jugador no ha terminado se usa esta variable para confirmar si desea reiniciar el juego
+    // se considera que lo esta abandonando y por ende es como si perdiera el juego
+    let confirmarNuevoJuego = true;
+
+    if(jugada != 8 && jugando){
+        confirmarNuevoJuego = await seguroDeseaNuevoJuego();
+        if(confirmarNuevoJuego){
+            await mensajeResultado(0);
+            actualizarPuntajePerdidos(nivel);
+        }
+        
     }
 
-    ocultarLineaGanadora();
+    if(confirmarNuevoJuego){
+                        
+        jugada = 0;
+        matrizJuego = [
+            ["0","0","0"],
+            ["0","0","0"],
+            ["0","0","0"]
+        ];
+        usuarioCentro = false;
+        casillasOcupadas = [];
+        jugando = false;
+        eleccionO.disabled = false;
+        eleccionX.disabled = false;
+        modoJuego.disabled = false;
+        
+        for(let i=0; i<contenedoresSecundarios.length;i++){
+            contenedoresSecundarios[i].innerHTML = "";
+        }
+
+        ocultarLineaGanadora();
+    }
+    
 
 }

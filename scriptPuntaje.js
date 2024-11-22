@@ -1,11 +1,12 @@
 import {modoJuego} from './script.js';
 
+localStorage.removeItem('puntajes');
 
 let ganados = document.getElementById('ganados');
 let empatados = document.getElementById('empatados');
 let perdidos = document.getElementById('perdidos');
 
-let puntajes = JSON.parse(localStorage.getItem('puntajes'));
+let puntajes = JSON.parse(localStorage.getItem('puntaje'));
 
 if(puntajes == null){
     puntajes = [
@@ -14,7 +15,7 @@ if(puntajes == null){
         { ganados:0, empatados: 0, perdidos: 0}, //nivel difícil 
         { ganados:0, empatados: 0, perdidos: 0} //nivel imposible
     ];
-    localStorage.setItem('puntajes',JSON.stringify(puntajes));
+    localStorage.setItem('puntaje',JSON.stringify(puntajes));
 }else{
     dibujarPuntajes(0);
 }
@@ -25,7 +26,7 @@ export function dibujarPuntajes(nivel){
     ganados.value = puntajes[nivel].ganados;
     empatados.value = puntajes[nivel].empatados;
     perdidos.value = puntajes[nivel].perdidos;
-    localStorage.setItem('puntajes',JSON.stringify(puntajes));
+    localStorage.setItem('puntaje',JSON.stringify(puntajes));
 }
 
 export function actualizarPuntajeGanados(nivel){

@@ -1,7 +1,7 @@
 import { actualizarPuntajeEmpatados,actualizarPuntajePerdidos, 
         actualizarPuntajeGanados } from "./scriptPuntaje.js";
 
-import {mensajeResultado,escojaUnaOpcion, seguroDeseaNuevoJuego} from "./scriptModales.js";
+import {mensajeResultado,escojaUnaOpcion, seguroDeseaNuevoJuego, detenerAnimacion} from "./scriptModales.js";
 
 import {calcularYDibujarLineaGanadora, ocultarLineaGanadora} from "./scriptLineaGanador.js"
 
@@ -369,13 +369,13 @@ function asignarContenedoresGanadores (opcGanadora){
 
 
 async function terminarJuego(resultado){
-    jugada == 9;
     jugando = false;
     console.log("juego terminado");
     if(resultado != 2){
         await calcularYDibujarLineaGanadora(contenedorInicial,contenedorFinal);
     }
     await mensajeResultado(resultado);
+    await detenerAnimacion();
     
 }
 
@@ -388,10 +388,11 @@ async function reiniciarJuego(){
     // se considera que lo esta abandonando y por ende es como si perdiera el juego
     let confirmarNuevoJuego = true;
 
-    if(jugada != 8 && jugando){
+    if(jugada != 9 && jugando){
         confirmarNuevoJuego = await seguroDeseaNuevoJuego();
         if(confirmarNuevoJuego){
             await mensajeResultado(0);
+            detenerAnimacion();
             actualizarPuntajePerdidos(nivel);
         }
         

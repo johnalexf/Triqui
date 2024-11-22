@@ -1,6 +1,9 @@
 let nombreUsuario = localStorage.getItem('nombreUsuario').toUpperCase();
-const  nombreUsuarioDOM = document.getElementById('nombreUsuarioDOM')
+
+const  nombreUsuarioDOM = document.getElementById('nombreUsuarioDOM');
 console.log(nombreUsuario);
+
+const fondoAnimado = document.getElementById("fondoAnimado");
 
 if(nombreUsuario !=null){
   bienvenido();
@@ -67,12 +70,15 @@ export function mensajeResultado(resultado){
 
     switch(resultado){
       case 0: 
+        fondoAnimado.classList.add("perdiste");
         mensaje = `Lo siento ${nombreUsuario} has perdido, inténtalo de nuevo`;
         break;
       case 1: 
+        fondoAnimado.classList.add("ganaste");
         mensaje = `Felicitaciones ${nombreUsuario} has ganado, ¿te atreves a subir de nivel?`;
         break;
       case 2: 
+      fondoAnimado.classList.add("empate");
         mensaje = `${nombreUsuario} hemos quedado empatados, que reñido estuvo`;
         break;
       default :
@@ -86,9 +92,25 @@ export function mensajeResultado(resultado){
         showConfirmButton: false,
         timer: 5000,
         timerProgressBar: true
-      });  
+      }); 
+        fondoAnimado.style.display = "block";
         resolve(); // Resolver la promesa después de 400ms
     }, 1200); 
+  });
+}
+
+export function detenerAnimacion(){
+  return new Promise( (resolve)=>{
+    
+    //Simulación de una tarea asíncrona
+    setTimeout(() => {
+        fondoAnimado.style.display = "none";
+        fondoAnimado.classList.remove("ganaste");
+        fondoAnimado.classList.remove("perdiste");
+        fondoAnimado.classList.remove("empate");
+        resolve(); // Resolver la promesa después de 200ms
+    }, 5000); 
+
   });
 }
 

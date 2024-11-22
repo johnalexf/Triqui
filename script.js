@@ -53,10 +53,6 @@ let contenedorSeleccionado
 // y también para la cuarta jugada y hacer imposible que el usuario gane
 const arregloParaNoDejarGanar = [0,2,6,8];
 
-//arreglo especial para evitar que el usuario gane en modo imposible, cuando su primera jugada es en una esquina
-//y la segunda en las casillas 1,7,3 o 5 separada de la primera jugada.
-const arregloEspecial = [[1,7],[3,5]];
-
 // variable para saber si el usuario selecciono el centro en la primera jugada
 let usuarioCentro = false;
 
@@ -81,6 +77,8 @@ let arregloAVerificar = ["0","0","0"];
 //variables que almacenaran el contenedorInicial y el contenedorFinal de la jugada ganadora
 let contenedorInicial;
 let contenedorFinal;
+
+let estadoAnimacion = false;
 
 //botón para empezar un nuevo juego
 const btnNuevoJuego = document.getElementById('nuevoJuego');
@@ -119,6 +117,11 @@ document.addEventListener('click', async function(event){
     //Es necesario usar la siguiente función para evitar que el evento de escucha de un click
     //se propague y genere un doble evento en la escucha de un cambio en el select modo de juego
     event.stopPropagation();
+    if(estadoAnimacion){
+        detenerAnimacionSinEspera();
+        estadoAnimacion = false;
+    }
+   
 
     if(event.target.classList[1] == 'secundario' && !jugando && jugada == 0 ){
         if(letraUsuario != "Ninguna"){
@@ -376,7 +379,7 @@ async function terminarJuego(resultado){
         await calcularYDibujarLineaGanadora(contenedorInicial,contenedorFinal);
     }
     await mensajeResultado(resultado);
-    await detenerAnimacion();
+    estadoAnimacion = detenerAnimacion();
     
 }
 
@@ -384,8 +387,7 @@ btnNuevoJuego.addEventListener('click',reiniciarJuego);
 
 async function reiniciarJuego(){
 
-    detenerAnimacionSinEspera();
-
+    
     // si el jugador no ha terminado se usa esta variable para confirmar si desea reiniciar el juego
     // se considera que lo esta abandonando y por ende es como si perdiera el juego
     let confirmarNuevoJuego = true;
@@ -394,7 +396,7 @@ async function reiniciarJuego(){
         confirmarNuevoJuego = await seguroDeseaNuevoJuego();
         if(confirmarNuevoJuego){
             await mensajeResultado(0);
-            detenerAnimacion();
+            estadoAnimacion = detenerAnimacion();
             actualizarPuntajePerdidos(nivel);
         }
         

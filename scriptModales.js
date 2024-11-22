@@ -100,22 +100,15 @@ export function mensajeResultado(resultado){
 }
 
 export function detenerAnimacion(){
-  return new Promise( (resolve)=>{
-    
-    //Simulación de una tarea asíncrona
     setTimeout(() => {
-        quitarParametrosAnimacion();
-        resolve(); // Resolver la promesa después de 200ms
-    }, 5000); 
+        detenerAnimacionSinEspera(); 
+  },5000);
 
-  });
+  return true;
 }
 
 export function detenerAnimacionSinEspera(){
-  quitarParametrosAnimacion();
-}
-
-function quitarParametrosAnimacion(){
+  console.log("dtener animacion sin espera")
   fondoAnimado.style.display = "none";
   fondoAnimado.classList.remove("ganaste");
   fondoAnimado.classList.remove("perdiste");

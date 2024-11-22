@@ -1,4 +1,4 @@
-let nombreUsuario = localStorage.getItem('nombreUsuario');
+let nombreUsuario = localStorage.getItem('nombreUsuario').toUpperCase();
 const  nombreUsuarioDOM = document.getElementById('nombreUsuarioDOM')
 console.log(nombreUsuario);
 
@@ -48,7 +48,8 @@ function bienvenido(){
   Swal.fire({
     title:`Bienvenido ${nombreUsuario} al juego de Triqui`,
     showConfirmButton: false,
-    timer: 200,
+    timer: 3000,
+    timerProgressBar: true,
     didOpen: ()=>{ Swal.showLoading()}
   });
   nombreUsuarioDOM.textContent = nombreUsuario;
@@ -83,7 +84,8 @@ export function mensajeResultado(resultado){
       Swal.fire({
         title: mensaje,
         showConfirmButton: false,
-        timer: 5000
+        timer: 5000,
+        timerProgressBar: true
       });  
         resolve(); // Resolver la promesa después de 400ms
     }, 1200); 
@@ -94,6 +96,7 @@ export function escojaUnaOpcion(){
   Swal.fire({
     title:`${nombreUsuario} por favor elije una opción ya sea (O) o (X) con la que deseas jugar`,
     showConfirmButton: false,
-    timer: 4000
+    timer: 4000,
+    timerProgressBar: true
   });
 }

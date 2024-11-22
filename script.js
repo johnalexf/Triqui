@@ -126,6 +126,7 @@ document.addEventListener('click', async function(event){
             eleccionX.disabled = true;
             modoJuego.disabled = true;
             nivel = modoJuego.value;
+            window.location.href = "#juego"
         }else{
             escojaUnaOpcion();
         }
@@ -247,7 +248,7 @@ async function terminarJuego(resultado){
 //4. Si ninguna de las anteriores se cumple, la jugada del programa es al azar.
 function opcionParaBloquear(){
         
-    if(opcionParaGanar(letraPc) && nivel > 1 ){
+    if(opcionParaGanar(letraPc) && nivel > 0 ){
         console.log("opcion para ganar el pc");
         return;
     }

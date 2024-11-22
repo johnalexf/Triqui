@@ -26,3 +26,11 @@
 .lineaGanador.transitionHorizontal{
     transition: width 1s ease-in-out;
 }
+
+.lineaGanador.diagonalIzquierda{
+    transform-origin: top left;
+}
+
+.lineaGanador.diagonalDerecha{
+    transform-origin: top left;
+}

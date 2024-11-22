@@ -17,50 +17,47 @@ export function calcularYDibujarLineaGanadora (contenedorInicial, contenedorFina
         let ancho;
         let alto;
         let giro = 0;
-        let transicion = "vertical";
+        let transicion = "horizontal";
+
+        [horizontalCoordInicial, verticalCoordInicial] = obtenerCoordenadasCentrales(contenedorInicial);
+        [horizontalCoordFinal, verticalCoordFinal] = obtenerCoordenadasCentrales(contenedorFinal);
 
         // si se cumple esta condicion significa que la linea a dibujar es de forma diagonal
         if( (contenedorInicial == 0 && contenedorFinal == 8) || (contenedorInicial == 2 &&  contenedorFinal == 6) ){
 
-            // Para este caso, es necesario dibujar una linea de forma horizontal en todo el centro del tablero y girarla 45 o 135 grados
-            // Obtenemos las coordenadas del contenedor del la segunda columna primera fila
-            [horizontalCoordInicial, verticalCoordInicial] = obtenerCoordenadasCentrales(3);
-            [horizontalCoordFinal, verticalCoordFinal] = obtenerCoordenadasCentrales(5);
-
-            let tamanoContenedor = (horizontalCoordFinal - horizontalCoordInicial)/2;
-            let aumetarAncho = 0.4;
-
-            //se le resta la mitad del grosor para que la linea se pinte en el centro de las coordenadas
-            arriba = verticalCoordInicial - grosorLinea/2;
-            izquierda = horizontalCoordInicial - grosorLinea/2 - tamanoContenedor*(aumetarAncho) ;
-
-            ancho = (horizontalCoordFinal - horizontalCoordInicial) + grosorLinea + tamanoContenedor*(2*aumetarAncho) ;
+            // para esta diagonal el ancho seria la hipotenusa
+            // hipotenusa = raiz(a^2 + b^2) 
+            //donde a y b seria el alto y el largo que obtenemos al restar el valor final - valor inicial de coordenadas vertical y horizontal
+            ancho = Math.sqrt( (horizontalCoordFinal - horizontalCoordInicial)**2 + (verticalCoordFinal-verticalCoordInicial)**2 );
             alto = grosorLinea;
+
+            izquierda = horizontalCoordInicial + grosorLinea/4;            
 
             if(contenedorInicial == 0){
                 giro = 45;
+                arriba = verticalCoordInicial - grosorLinea/2;
+                
             }else if( contenedorInicial == 2){
+                arriba = verticalCoordInicial + grosorLinea/2;
                 giro = 135;
             }
 
         }else{
-
-            [horizontalCoordInicial, verticalCoordInicial] = obtenerCoordenadasCentrales(contenedorInicial);
-            [horizontalCoordFinal, verticalCoordFinal] = obtenerCoordenadasCentrales(contenedorFinal);
 
             arriba = verticalCoordInicial - grosorLinea/2;
             izquierda = horizontalCoordInicial - grosorLinea/2;
 
             // si se cumple esta condicion significa que la linea ganadora se debe pintar de formal vertical
             if( (horizontalCoordFinal - horizontalCoordInicial) == 0 ){
-                
+
+                transicion = "vertical";
                 ancho = grosorLinea;
                 alto = (verticalCoordFinal - verticalCoordInicial) + grosorLinea;
 
             // si se cumple esta condicion significa que la linea ganadora se debe pintar de forma horizontal
             }else if( (verticalCoordFinal - verticalCoordInicial) == 0){
 
-                transicion = "horizontal";
+                
                 ancho = (horizontalCoordFinal - horizontalCoordInicial) + grosorLinea;
                 alto = grosorLinea;
             
@@ -110,23 +107,27 @@ function dibujarLineaGanadora(arriba, izquierda, ancho, alto, giro,transicion){
         lineaGanador.classList.add("transitionVertical");
     }
 
+    if(giro == 45){
+        lineaGanador.classList.add("diagonalIzquierda");
+    }else if(giro == 135){
+        lineaGanador.classList.add("diagonalDerecha");
+    }
+
     lineaGanador.style.top = `${arriba}px`;
     lineaGanador.style.left = `${izquierda}px`;
     lineaGanador.style.transform = `rotate(${giro}deg)`;
-    // lineaGanador.style.display = "block";
-    setTimeout(lineaGanador.style.height = `${alto}px`, 100);
-    setTimeout(lineaGanador.style.width = `${ancho}px`, 100);
-    // lineaGanador.style.height = `${alto}px`;
-    // lineaGanador.style.width = `${ancho}px`;
+    lineaGanador.style.height = `${alto}px`
+    lineaGanador.style.width = `${ancho}px`
     
 }
 
 export function ocultarLineaGanadora(){
-    // lineaGanador.style.display = "none";
     lineaGanador.style.width = `0px`;
     lineaGanador.style.height = `0px`;
     lineaGanador.classList.remove("transitionVertical");
     lineaGanador.classList.remove("transitionHorizontal");
+    lineaGanador.classList.remove("diagonalIzquierda");
+    lineaGanador.classList.remove("diagonalDerecha");
 } 
 
 //calcularYDibujarLineaGanadora(2,6);

@@ -104,14 +104,22 @@ export function detenerAnimacion(){
     
     //Simulación de una tarea asíncrona
     setTimeout(() => {
-        fondoAnimado.style.display = "none";
-        fondoAnimado.classList.remove("ganaste");
-        fondoAnimado.classList.remove("perdiste");
-        fondoAnimado.classList.remove("empate");
+        quitarParametrosAnimacion();
         resolve(); // Resolver la promesa después de 200ms
     }, 5000); 
 
   });
+}
+
+export function detenerAnimacionSinEspera(){
+  quitarParametrosAnimacion();
+}
+
+function quitarParametrosAnimacion(){
+  fondoAnimado.style.display = "none";
+  fondoAnimado.classList.remove("ganaste");
+  fondoAnimado.classList.remove("perdiste");
+  fondoAnimado.classList.remove("empate");
 }
 
 export function escojaUnaOpcion(){

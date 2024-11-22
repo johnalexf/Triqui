@@ -1,7 +1,8 @@
 import { actualizarPuntajeEmpatados,actualizarPuntajePerdidos, 
         actualizarPuntajeGanados } from "./scriptPuntaje.js";
 
-import {mensajeResultado,escojaUnaOpcion, seguroDeseaNuevoJuego, detenerAnimacion} from "./scriptModales.js";
+import {mensajeResultado,escojaUnaOpcion, seguroDeseaNuevoJuego, 
+        detenerAnimacion, detenerAnimacionSinEspera} from "./scriptModales.js";
 
 import {calcularYDibujarLineaGanadora, ocultarLineaGanadora} from "./scriptLineaGanador.js"
 
@@ -383,6 +384,7 @@ btnNuevoJuego.addEventListener('click',reiniciarJuego);
 
 async function reiniciarJuego(){
 
+    detenerAnimacionSinEspera();
 
     // si el jugador no ha terminado se usa esta variable para confirmar si desea reiniciar el juego
     // se considera que lo esta abandonando y por ende es como si perdiera el juego

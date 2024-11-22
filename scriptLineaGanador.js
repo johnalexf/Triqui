@@ -83,7 +83,7 @@ export function calcularYDibujarLineaGanadora (contenedorInicial, contenedorFina
         //Simulación de una tarea asíncrona
         setTimeout(() => {
             dibujarLineaGanadora(arriba,izquierda,ancho,alto,giro,transicion);
-            resolve(); // Resolver la promesa después de 200ms
+            resolve(); // Resolver la promesa después de 400ms
       }, 400); 
     });
 

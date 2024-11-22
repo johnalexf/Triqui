@@ -61,26 +61,32 @@ function bienvenido(){
 //2 => la partida quedo en empate.
 export function mensajeResultado(resultado){
 
-  let mensaje ;
+  return new Promise( (resolve)=>{
+    let mensaje ;
 
-  switch(resultado){
-    case 0: 
-      mensaje = `Lo siento ${nombreUsuario} has perdido, inténtalo de nuevo`;
-      break;
-    case 1: 
-      mensaje = `Felicitaciones ${nombreUsuario} has ganado, ¿te atreves a subir de nivel?`;
-      break;
-    case 2: 
-      mensaje = `${nombreUsuario} hemos quedado empatados, que reñido estuvo`;
-      break;
-    default :
-      console.log("Error en el uso de la función mensajeResultado");
-  }
+    switch(resultado){
+      case 0: 
+        mensaje = `Lo siento ${nombreUsuario} has perdido, inténtalo de nuevo`;
+        break;
+      case 1: 
+        mensaje = `Felicitaciones ${nombreUsuario} has ganado, ¿te atreves a subir de nivel?`;
+        break;
+      case 2: 
+        mensaje = `${nombreUsuario} hemos quedado empatados, que reñido estuvo`;
+        break;
+      default :
+        console.log("Error en el uso de la función mensajeResultado");
+    }
 
-  Swal.fire({
-    title: mensaje,
-    showConfirmButton: false,
-    timer: 5000
+    //Simulación de una tarea asíncrona
+    setTimeout(() => {
+      Swal.fire({
+        title: mensaje,
+        showConfirmButton: false,
+        timer: 5000
+      });  
+        resolve(); // Resolver la promesa después de 400ms
+    }, 1200); 
   });
 }
 

@@ -239,7 +239,7 @@ async function terminarJuego(resultado){
     if(resultado != 2){
         await calcularYDibujarLineaGanadora(contenedorInicial,contenedorFinal);
     }
-    //mensajeResultado(resultado);
+    await mensajeResultado(resultado);
 }
 
 //Esta función realiza unas verificaciones en el siguiente orden:

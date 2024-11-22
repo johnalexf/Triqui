@@ -86,11 +86,22 @@ button{
     display: flex;
     align-items: center;
     justify-content: center;
+
 }
 
-.contenedor p{
+.secundario p{
     font-size: 80px;
     color: red;
+    opacity: 0;
+    transform: scale(0);
+}
+  
+.secundario p.visible {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 1s ease-in-out;
+    
+    color: blue;
 }
 
 .puntaje{

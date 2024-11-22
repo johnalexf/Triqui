@@ -1,10 +1,13 @@
 .lineaGanador {
-    display: none; /* Ocultar el modal por defecto */
+    display: block; /* Ocultar el modal por defecto */
     position: absolute; /* Fijar el modal en la ventana */
     z-index: 1; /* Asegurar que el modal esté encima de otros elementos */
     border-radius: 6px;
     background-color: rgba(235, 85, 85, 0.966); /* Fondo oscuro semitransparente */
 
+    width: 0;
+    height: 0;
+    
 /* Los parametros siguientes son asignados por el scriptLineaGanador.js
     los cuales dependeran de la linea que haya ganado.
 */
@@ -14,5 +17,12 @@
     /* top: 0px;
     left: 0px; */
     
-    
-  }
+}
+
+.lineaGanador.transitionVertical{
+    transition: height 1s ease-in-out;
+}
+
+.lineaGanador.transitionHorizontal{
+    transition: width 1s ease-in-out;
+}

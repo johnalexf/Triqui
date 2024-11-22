@@ -5,7 +5,7 @@ import {mensajeResultado,escojaUnaOpcion} from "./scriptModales.js";
 
 import {calcularYDibujarLineaGanadora, ocultarLineaGanadora} from "./scriptLineaGanador.js"
 
-// checkboxs de la elección del usuario para jugar
+// checkboxs de la elección del usuario para jugar si es (O) o (X)
 const eleccionO = document.getElementById('eleccionO');
 const eleccionX = document.getElementById('eleccionX');
 
@@ -110,7 +110,7 @@ eleccionX.addEventListener('change',()=>{
 
 //evento de escucha de un click en toda la pagina con el fin de:
 // poder dibujar la selección del usuario según el contenedor secundario donde se haga click.
-// y posteriormente a ello que el programa dibuje su elección
+// y posteriormente a ello que el programa dibuje su elección (O) o (X)
 // la función es asíncrona ya que al modificar el DOM es necesario darle un tiempo para que 
 // termine su ejecución y las variables se asignen correctamente
 document.addEventListener('click', async function(event){
@@ -179,6 +179,8 @@ function pintarYGuardarJugada(id, letra){
     return new Promise( (resolve)=>{
         contenedoresSecundarios[id].innerHTML = `<p> ${letra} </p>`;
 
+        
+
         convertirIdAUbicacionMatriz(id);
         matrizJuego[columna][fila] = letra;
         casillasOcupadas.push(id);
@@ -186,8 +188,10 @@ function pintarYGuardarJugada(id, letra){
 
         //Simulación de una tarea asíncrona
         setTimeout(() => {
-            resolve(); // Resolver la promesa después de 100ms
-      }, 100); 
+            const nuevoElemento = contenedoresSecundarios[id].querySelector('p');
+            nuevoElemento.classList.add('visible');
+            resolve(); // Resolver la promesa después de 200ms
+      }, 200); 
     });
 }
 
@@ -228,14 +232,14 @@ function verificarGanador(){
 
 }
 
-function terminarJuego(resultado){
+async function terminarJuego(resultado){
     jugada = 9;
     jugando = false;
     console.log("juego terminado");
     if(resultado != 2){
-        calcularYDibujarLineaGanadora(contenedorInicial,contenedorFinal);
+        await calcularYDibujarLineaGanadora(contenedorInicial,contenedorFinal);
     }
-    mensajeResultado(resultado);
+    //mensajeResultado(resultado);
 }
 
 //Esta función realiza unas verificaciones en el siguiente orden:

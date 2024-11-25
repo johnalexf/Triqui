@@ -19,3 +19,19 @@ Un emocionante juego de Triqui desarrollado completamente en frontend utilizando
 ### Despliegue
 El juego desplegado está disponible en GitHub: [https://johnalexf.github.io/Triqui/](https://johnalexf.github.io/Triqui/)
 
+### Como funciona
+
+#### Escribe tu nombre:
+Este paso solo se realiza una vez por dispositivo.
+![Escribir Nombre](./img/EscribirNombre.png)
+
+#### Bienvenida:
+Cada vez que vuelvas a ingresar, se mostrara un mensaje de bienvenida.
+![Bienvenida](./img/Bienvenida.png)
+
+#### Elije el nivel
+![Nivel Juego](./img/Nivel.png)
+
+#### Elije la opción con la cual deseas jugar
+![Opción de juego](./img/Nivel.png)
+

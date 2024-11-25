@@ -33,5 +33,11 @@ Cada vez que vuelvas a ingresar, se mostrara un mensaje de bienvenida.
 ![Nivel Juego](./img/Nivel.png)
 
 #### Elije la opción con la cual deseas jugar
-![Opción de juego](./img/Nivel.png)
+![Opción de juego](./img/OpcionJuego.png)
 
+#### Haz clic sobre la casilla en la cual quieres poner tu jugada
+Automáticamente después el programa el PC dibujara la jugada de él.
+![Pintar Jugada](./img/DibujarJugada.png)
+
+#### Si deseas empezar un nuevo juego haz clic en el botón
+![Nuevo Juego](./img/Nuevo%20Juego.png)

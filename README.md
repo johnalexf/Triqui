@@ -51,6 +51,7 @@
 
 #### Escribe tu nombre:
 Este paso solo se realiza una vez por dispositivo.
+
 ![Escribir Nombre](./img/EscribirNombre.png)
 
 #### Bienvenida:
